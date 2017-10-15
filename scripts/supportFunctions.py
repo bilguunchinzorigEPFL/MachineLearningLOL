@@ -1,17 +1,17 @@
 import numpy as np
-#loss calculators
+#LOSS calculators
 def loss_mse(y,tx,w):
-    rows,cols=np.indices(tx.shape)
-    e=y-np.sum(np.multiply(w[cols],tx),axis=1)
+    e=y-np.dot(tx,w)
     return sum(e**2)/(y.shape[0])
 def loss_rmse(y,tx,w):
     return np.sqrt(loss_mse(y,tx,w))
-#gradient calculators
+
+#GRADIENT and loss calculators
 #mean square error gradient
 def gradient_mse(y,tx,w):
     rows,cols=np.indices(tx.shape)
-    tmp=y-np.sum(np.multiply(w[cols],tx),axis=1)
-    return np.sum(np.multiply(tmp[rows],tx),axis=0)/(-y.shape[0]), sum(tmp**2)/(y.shape[0])
+    tmp=y-np.dot(tx,w)
+    return np.dot(np.transpose(tx),y)/(-y.shape[0]), sum(tmp**2)/(y.shape[0])
 #root mean square error gradient
 def gradient_rmse(y,tx,w):
     grad, loss=gradient_mse(y,tx,w)
@@ -36,3 +36,7 @@ def build_poly(x, degree):
         for d in range(0,degree):
             powers[:,f*degree+d]=x[:,f]**d
     return powers
+
+#Weight initializer
+def weight_init(size,lower=0,upper=1):
+    return np.random.rand(size)*(upper-lower)+lower

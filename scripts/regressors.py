@@ -1,8 +1,11 @@
-from supportFunctions import *
+from scripts.supportFunctions import *
 #These are the main regression functions which returns weights and losses
 #1 least square gd
-def gradient_descent(y, tx, initial_w, max_iters, gamma):
+def gradient_descent(y, tx, max_iters, gamma, initial_w=None):
+    #initializing the weights
     ws = [initial_w]
+    if initial_w==None:
+        ws = weight_init(y.shape[0])
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
@@ -14,8 +17,10 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma):
     return losses, ws
 
 #2 stochastic gradient descent
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
+def stochastic_gradient_descent(y, tx, batch_size, max_iters, gamma, initial_w=None):
     ws = [initial_w]
+    if initial_w==None:
+        ws = weight_init(y.shape[0])
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
@@ -41,8 +46,10 @@ def ridge_regression(y, tx, lambda_):
     return w_ridge, mse_ridge
 
 #5 polynomial  
-def poly_descent(y, x, initial_w, max_iters, gamma):
+def poly_descent(y, x, max_iters, gamma, initial_w=None):
     ws = [initial_w]
+    if initial_w==None:
+        ws = weight_init(y.shape[0])
     losses = []
     w = initial_w
     tx=build_poly(x,degree)
@@ -54,8 +61,10 @@ def poly_descent(y, x, initial_w, max_iters, gamma):
     return losses, w
 
 #6 polynomial regularized
-def poly_descent(y, tx, initial_w, max_iters, gamma,lambda_):
+def poly_descent(y, tx, max_iters, gamma,lambda_, initial_w=None):
     ws = [initial_w]
+    if initial_w==None:
+        ws = weight_init(y.shape[0])
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
