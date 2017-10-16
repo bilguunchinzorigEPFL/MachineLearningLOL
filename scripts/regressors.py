@@ -3,35 +3,32 @@ from scripts.supportFunctions import *
 #1 least square gd
 def gradient_descent(y, tx, max_iters, gamma, initial_w=None):
     #initializing the weights
-    ws = [initial_w]
     if initial_w==None:
-        ws = weight_init(y.shape[0])
+        initial_w = weight_init(tx.shape[1])
+    ws = [initial_w]
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
-        g=compute_gradient(y,tx,w)
-        loss=compute_loss(y,tx,w)
+        g, loss=gradient_mse(y,tx,w)
         w=w-gamma*g
         ws.append(w)
         losses.append(loss)
-    return losses, ws
+    return w, losses, ws
 
 #2 stochastic gradient descent
 def stochastic_gradient_descent(y, tx, batch_size, max_iters, gamma, initial_w=None):
-    ws = [initial_w]
     if initial_w==None:
-        ws = weight_init(y.shape[0])
+        initial_w = weight_init(tx.shape[1])
+    ws = [initial_w]
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
-        g=compute_stoch_gradient(y,tx,w)
-        #since loss is square of gradient[0] where x0 is equal to 1
-        loss=g[0]**2
+        g, loss=gradient_mse_sto(y,tx,w,batch_size)
         w=w-gamma*g
         # store w and loss
         ws.append(w)
         losses.append(loss)
-    return losses, ws
+    return w, losses, ws
 
 #3 least squaress
 def least_squares(y, tx):
@@ -44,32 +41,3 @@ def ridge_regression(y, tx, lambda_):
     w_ridge=np.dot(np.linalg.inv(np.dot(np.transpose(tx),tx)+lambda_*np.eye(tx.shape[1])),np.dot(np.transpose(tx),y))
     mse_ridge=loss_mse(y, tx, w_ridge)
     return w_ridge, mse_ridge
-
-#5 polynomial  
-def poly_descent(y, x, max_iters, gamma, initial_w=None):
-    ws = [initial_w]
-    if initial_w==None:
-        ws = weight_init(y.shape[0])
-    losses = []
-    w = initial_w
-    tx=build_poly(x,degree)
-    for n_iter in range(max_iters):
-        g, loss=gradient_rmse(y,x,w)
-        w=w-gamma*g
-        ws.append(w)
-        losses.append(loss)
-    return losses, w
-
-#6 polynomial regularized
-def poly_descent(y, tx, max_iters, gamma,lambda_, initial_w=None):
-    ws = [initial_w]
-    if initial_w==None:
-        ws = weight_init(y.shape[0])
-    losses = []
-    w = initial_w
-    for n_iter in range(max_iters):
-        g, loss=gradient_rmse(y,x,w)
-        w=w-gamma*(g+gradient_reg(w,lambda_))
-        ws.append(w)
-        losses.append(loss)
-    return losses, w

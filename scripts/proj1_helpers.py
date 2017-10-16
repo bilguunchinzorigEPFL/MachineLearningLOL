@@ -78,5 +78,4 @@ def submit(name,test_path,weights,null_replace=0, standard=False):
     if standard:
         data=standardize(data)
     predicted=predict_labels(weights,data)
-    print(predicted)
     create_csv_submission(ids,predicted,name)
