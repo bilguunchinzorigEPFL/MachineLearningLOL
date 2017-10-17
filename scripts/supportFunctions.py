@@ -39,4 +39,54 @@ def build_poly(x, degree):
 
 #Weight initializer
 def weight_init(size,lower=0,upper=1):
+#<<<<<<< HEAD
     return np.random.rand(size)*(upper-lower)+lower
+
+#Logistic regression
+
+
+#Logistic regression
+
+from scipy.stats import logistic
+
+def logistic_pdf(y,tx,w):
+	logistic_pdf=np.ones((len(y)))/(np.ones((len(y)))+np.exp(-np.dot(tx,w)))
+	return logistic_pdf
+	
+def logistic_gradient(y,tx,w):
+    log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))
+    return log_grad
+
+#def logistic_prediction(y,tx,w):
+#	log_pdf=logistic_pdf((y,tx,w)
+#	y_hat=(log_pdf>0.6)
+#	return y_hat
+
+def logistic_log_likelihood(y,tx,w):
+	logisticpdf=logistic_pdf(y,tx,w)
+	log_likelihood=np.dot(np.transpose(y),logisticpdf)+np.dot(np.transpose(np.ones((len(y)))-y),np.ones((len(y)))-logisticpdf)
+	return log_likelihood
+
+def logistic_loss_mse(y,tx,w):
+    e=y-logistic_pdf(y,tx,w) #TODO: figure this out
+    return sum(e**2)/(y.shape[0])
+
+def logistic_loss_rmse(y,tx,w):
+    return np.sqrt(logistic_loss_rmse(y,tx,w))
+          
+def compute_stoch_logistic_gradient(y, x, w, batch_size):
+    index=np.int_(np.floor(len(y)*np.random.uniform(0,1,batch_size)))
+    y=y[np.transpose(index)]
+    x=x[np.transpose(index),:] 
+    stoch_log_gradient=logistic_gradient(y, x, w)
+    #raise NotImplementedError
+    return stoch_log_gradient
+    
+#def logistic_loss(y,x,w):
+ #   y_hat=logistic_prediction(y,x,w)
+  #  a=(y!=y_hat)
+   # return sum(a)       
+#=======
+ #   return np.random.rand(size)*(upper-lower)+lower
+#>>>>>>> 08c42f73299a3a13e7506152e927ec20a8a75401
+
