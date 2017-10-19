@@ -2,6 +2,7 @@
 """some helper functions for project 1."""
 import csv
 import numpy as np
+from supportFunctions import *
 
 #splits given data into train and test data
 def split_data(y, ratio=0.8, seed=1):
@@ -42,11 +43,18 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
     return yb, input_data, ids
 
 
-def predict_labels(weights, data):
+def predict_labels(weights, data, islogistic=False):
     """Generates class predictions given weights, and a test data matrix"""
+    if islogistic=True:
+    
+    y_pred=logistic_pdf(y,tx,w)
+    
+    else :
+    
     y_pred = np.dot(data, weights)
-    y_pred[np.where(y_pred <= 0)] = -1
-    y_pred[np.where(y_pred > 0)] = 1
+    
+    y_pred[np.where(y_pred <= 0.5)] = -1
+    y_pred[np.where(y_pred > 0.5)] = 1
     
     return y_pred
 

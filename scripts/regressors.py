@@ -41,3 +41,37 @@ def ridge_regression(y, tx, lambda_):
     w_ridge=np.dot(np.linalg.inv(np.dot(np.transpose(tx),tx)+lambda_*np.eye(tx.shape[1])),np.dot(np.transpose(tx),y))
     mse_ridge=loss_mse(y, tx, w_ridge)
     return w_ridge, mse_ridge
+
+#5 Logistic Regression 
+#5.1 GD
+def logistic_regression(y,tx,max_iters,gamma,w_initial):
+    w=[w_initial]
+    losses = []
+    log_likelihood=[]
+    w = w_initial
+    for n_iter in range(max_iters):
+        log_like=logistic_log_likelihood(y,tx,w)
+        grad=logistic_gradient(y,tx,w)
+        w=w+gamma*grad
+        log_likelihood.append([log_like])
+        print("Logistic Regression Gradient Descent({bi}/{ti}): like={l}".format(
+             bi=n_iter, ti=max_iters - 1,l=log_like))
+    return  w, losses
+
+#5.1  Stochastic GD 
+def stoch_log_regr(
+    y, x, initial_w, batch_size, max_iters, gamma):
+    ws = [initial_w]
+    losses = []
+    w = initial_w
+    for n_iter in range(max_iters):
+        index=np.int_(np.floor(len(y)*np.random.uniform(0,1,batch_size)))
+        y=y[np.transpose(index)]
+        x=x[np.transpose(index),:] 
+        log_like=logistic_log_likelihood(y,tx,w)
+        w=w+gamma*logistic_gradient(y,x,w)
+        log_likelihood.append([log_like])
+        print("Logistic Regression Stochastic Gradient Descent({bi}/{ti}):  like={l}".format(
+              bi=n_iter, ti=max_iters - 1, l=log_like))
+    return w, losses
+
