@@ -12,4 +12,4 @@ te_loss=sp.loss_mse(y[te_idx],tx[te_idx],w)
 print(tr_loss,te_loss)
 
 #saving the test
-#helper.submit("least square","../test.csv",w,standard=True)
+helper.submit("least square","../test.csv",w,standard=True)
