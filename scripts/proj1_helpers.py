@@ -2,7 +2,7 @@
 """some helper functions for project 1."""
 import csv
 import numpy as np
-from supportFunctions import *
+from scripts.supportFunctions import *
 
 #splits given data into train and test data
 def split_data(y, ratio=0.8, seed=1):
@@ -43,14 +43,14 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
     return yb, input_data, ids
 
 
-def predict_labels(weights, data, islogistic=False):
+def predict_labels(weights, data, threshold,islogistic=False):
     """Generates class predictions given weights, and a test data matrix"""
-    if islogistic=True:
+    if islogistic:
 	    y_pred=logistic_pdf(y,tx,w)
     else :
 	    y_pred = np.dot(data, weights)
-    y_pred[np.where(y_pred <= 0.5)] = -1
-    y_pred[np.where(y_pred > 0.5)] = 1
+    y_pred[np.where(y_pred <= threshold)] = -1
+    y_pred[np.where(y_pred > threshold)] = 1
     
     return y_pred
 
@@ -71,7 +71,7 @@ def create_csv_submission(ids, y_pred, name):
 
 
 
-def submit(name,test_path,weights,null_replace=0, standard=False,islogistic=False):
+def submit(name,test_path,weights,null_replace=0, standard=False,threshold=0.5,islogistic=False):
     #read data
     x = np.genfromtxt(test_path, delimiter=",", skip_header=1)
     ids = x[:, 0].astype(np.int)
@@ -81,5 +81,5 @@ def submit(name,test_path,weights,null_replace=0, standard=False,islogistic=Fals
     #standardize data
     if standard:
         data=standardize(data)
-    predicted=predict_labels(weights,data,islogistic)
+    predicted=predict_labels(weights,data,threshold,islogistic)
     create_csv_submission(ids,predicted,name)

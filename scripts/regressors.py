@@ -44,7 +44,9 @@ def ridge_regression(y, tx, lambda_):
 
 #5 Logistic Regression 
 #5.1 GD
-def logistic_regression(y,tx,max_iters,gamma,w_initial):
+def logistic_regression(y,tx,max_iters,gamma,w_initial=None):
+    if w_initial==None:
+        w_initial = weight_init(tx.shape[1])
     w=[w_initial]
     losses = []
     log_likelihood=[]
@@ -75,3 +77,20 @@ def stoch_log_regr(
               bi=n_iter, ti=max_iters - 1, l=log_like))
     return w, losses
 
+#6 Logistic with regularization
+def logistic_regression_reg(y,tx,max_iters,gamma,lambda_,w_initial=None):
+    if w_initial==None:
+        w_initial = weight_init(tx.shape[1])
+    w=[w_initial]
+    losses = []
+    log_likelihood=[]
+    w = w_initial
+    for n_iter in range(max_iters):
+        log_like=logistic_log_likelihood(y,tx,w)
+        grad=logistic_gradient(y,tx,w)
+        reg_grad,reg_loss=regulizer(w,lambda_)
+        w=w+gamma*(grad+reg_grad)
+        log_likelihood.append([log_like+reg_loss])
+        print("Logistic Regression Gradient Descent({bi}/{ti}): like={l}".format(
+             bi=n_iter, ti=max_iters - 1,l=log_like))
+    return  w, losses
