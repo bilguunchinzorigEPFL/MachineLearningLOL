@@ -1,0 +1,103 @@
+\documentclass[10pt,conference,compsocconf]{IEEEtran}
+
+\usepackage{hyperref}
+\usepackage{graphicx}	% For figure environment
+\usepackage{mathptmx}
+\usepackage{helvet}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{imakeidx} \makeindex[options = -s svind]
+\usepackage{multicol}
+\usepackage[bottom]{footmisc}
+\usepackage{natbib}
+\bibliographystyle{humannat}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{float}
+%\restylefloat{table}
+%\usepackage{floatrow}
+%\floatsetup[table]{capposition=top}
+%\usepackage{lscape}
+\usepackage{breqn}
+%\usepackage{listings}
+\usepackage{color}
+%\usepackage[utf8]{inputenc}
+%\usepackage{array}
+%\definecolor{mygreen}{RGB}{28,172,0}
+%\definecolor{mylilas}{RGB}{170,55,241}
+
+\newcommand{\plim}{\text{plim}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\diag}{\text{diag}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\Exp}{\text{E}}
+\newcommand{\vect}{\text{vec}}
+\newcommand{\vech}{\text{vech}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\lnf}{\text{ln f}}
+\newtheorem{assumption}{Assumption}
+\usepackage{amsmath}
+\usepackage{breqn}
+
+\begin{document}
+\title{Project 1}
+
+\author{
+  Monika Avila Marquez \\
+  \textit{EPFL}
+}
+
+\maketitle
+
+\begin{abstract}
+  
+\end{abstract}	\textbf{We aim to predict whether an event is the result of a High Bosson process or not using a linear model and a logistic one. For the former, we estimate the vector of weights using  least squares method which aims to minimize the MSE. In this case, we use the normal equations and not an iterative method. For the latter, we use the maximum likelihood method. In this case we use Gradient Descent for the maximization of the Likelihood.  }
+
+\section{Introduction}
+
+The aim of this project is to determine whether an event signature is the result of High bosson or other process. In order to ...
+\section{The Model}
+\label{S1}
+In order to estimate the likelihood that an event signature is the result of a High bosson process, we model the data using a boolean variable called $y_i, \forall i \in  \{1, 2, ..., 2500\}  $ as:
+
+ $$
+y_{i}=
+\begin{cases}
+1, & \text{if} \quad prediction_i=b\\
+0, & \text{otherwise}
+\end{cases}
+, 
+$$
+Since the expectation of a boleaan variable is equal to the probability that the variable is equal to 1, we can model the probability that the event is the result of a High Bosson process with a linear model:
+$$p(y_i|\textbf{x}_i)=E(y_i|\textbf{x}_i)=\textbf{x}'_i w$$
+Where $\textbf{x}_i $ is the vector of attributes considered in the regression and $w $ are the weights.
+However, as it is well known the biggest pitfall of this model is the fact that the estimated probability is out of the boundaries of the closed interval $ ( 0,1 ) $. 
+In order to address the problem mentioned, we use the logistic regression. This model lies within the framework of a Generalized Linear Model.  In this case, the probability of having a HB process is modeled as following:
+$$p(y_i|\textbf{x}_i)=\frac{\exp(\textbf{x}'_i w)}{1+exp(\textbf{x}'_i w)}$$
+
+\section{Methods}
+In the previous section, we have presented the models that we used. Now, we will describe the methods employed for the estimation of the vector of weights $w$. Since we have two different models, the estimation technique will be different. 
+For the linear regression model, we use Ordinary Least Squares method aiming to minimize the MSE. For this, we used the normal equations and the closed from solution for the weights. 
+For the logistic regression model, we aim to maximize the likelihood. For this we used Gradient Descent. 
+
+
+\section{The Data}
+\label{S1}
+
+\section{Results}
+\label{S1}
+  Show evidence to support your claims made in the
+introduction.
+\section{Discussion}
+\label{S1}
+  Discuss the strengths and weaknesses of your
+approach, based on the results. Point out the implications of your
+novel idea on the application concerned.
+\section{Summary}
+\label{S1}
+  Summarize your contributions in light of the new
+results.
+
+
+
+\end{document}

@@ -1,3 +1,4 @@
+import numpy as np
 from scripts.supportFunctions import *
 #These are the main regression functions which returns weights and losses
 #1 least square gd

@@ -2,7 +2,7 @@
 """some helper functions for project 1."""
 import csv
 import numpy as np
-from supportFunctions import *
+from scripts.supportFunctions import *
 
 #splits given data into train and test data
 def split_data(y, ratio=0.8, seed=1):
@@ -24,9 +24,9 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
     ids = x[:, 0].astype(np.int)
     input_data = x[:, 2:]
 
-    # convert class labels from strings to binary (-1,1)
-    yb = np.ones(len(y))
-    yb[np.where(y=='b')] = -1
+    # convert class labels from strings to binary (1,0).We assign 1 for label "b" and 0 otherwise
+    yb = np.zeros(len(y))
+    yb[np.where(y=='b')] = 1
     
     #converting NA's
     input_data[input_data == -999] = null_replace
@@ -45,8 +45,8 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
 
 def predict_labels(weights, data, islogistic=False):
     """Generates class predictions given weights, and a test data matrix"""
-    if islogistic=True:
-	    y_pred=logistic_pdf(y,tx,w)
+    if islogistic==True:
+	    y_pred=logistic_pdf(data,weights)
     else :
 	    y_pred = np.dot(data, weights)
     y_pred[np.where(y_pred <= 0.5)] = -1
@@ -71,7 +71,7 @@ def create_csv_submission(ids, y_pred, name):
 
 
 
-def submit(name,test_path,weights,null_replace=0, standard=False,islogistic=False):
+def submit(name,test_path,weights,null_replace=0, standard=False,islogistic=False):#here we need o add y, x,weights??
     #read data
     x = np.genfromtxt(test_path, delimiter=",", skip_header=1)
     ids = x[:, 0].astype(np.int)
