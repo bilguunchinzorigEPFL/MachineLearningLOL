@@ -26,17 +26,17 @@ def gradient_mse_sto(y,tx,w,batch_size):
     target=np.random.choice(range(0,len(y)),size=batch_size)
     #calculating the gradient
     return gradient_mse(y[target],tx[target],w)
-<<<<<<< HEAD
+
 
 #regularization parameter gradient
 def gradient_reg(w,lambda_):
     return 2*lamb*w
-=======
+
 #regularization parameter gradient and loss
 def regulizer(w,lambda_):
     reg=np.absolute(w)
     return lambda_*reg,lambda_*np.sum(reg**2)
->>>>>>> b20957a9dbbb6b4a2718883be1df85de4c1fc60e
+
 
 #function specific to polynomial regression
 #creating data for polynomial regression which returns all the degree of x value
@@ -65,13 +65,27 @@ def weight_init(size,lower=0,upper=1):
 
 #Logistic regression
 
-def logistic_pdf(tx,w):
-	logistic_pdf=np.ones((len(tx)))/(np.ones((len(tx)))+np.exp(-np.dot(tx,w)))
+#def logistic_pdf(tx,w):
+#	logistic_pdf=np.ones((tx.shape[0]))/(np.ones((tx.shape[0]))+np.exp(-(np.dot(tx,w))))
+#	return logistic_pdf
+
+def logistic_pdf(y,tx,w):
+	logistic_pdf=np.ones((len(y)))/(np.ones((len(y)))+np.exp(-np.dot(tx,w)))
 	return logistic_pdf
 	
 def logistic_gradient(y,tx,w):
     log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))
     return log_grad
+	
+	
+#def logistic_gradient(y,tx,w):
+ #   log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(tx,w)))
+  #  return log_grad
+
+#def logistic_log_likelihood(y,tx,w):
+#	logisticpdf=logistic_pdf(tx,w)
+#	log_likelihood=np.dot(np.transpose(y),logisticpdf)+np.dot(np.transpose(np.ones((len(y)))-y),np.ones((len(y)))-logisticpdf)
+#	return log_likelihood
 
 def logistic_log_likelihood(y,tx,w):
 	logisticpdf=logistic_pdf(y,tx,w)
