@@ -26,10 +26,17 @@ def gradient_mse_sto(y,tx,w,batch_size):
     target=np.random.choice(range(0,len(y)),size=batch_size)
     #calculating the gradient
     return gradient_mse(y[target],tx[target],w)
+<<<<<<< HEAD
 
 #regularization parameter gradient
 def gradient_reg(w,lambda_):
     return 2*lamb*w
+=======
+#regularization parameter gradient and loss
+def regulizer(w,lambda_):
+    reg=np.absolute(w)
+    return lambda_*reg,lambda_*np.sum(reg**2)
+>>>>>>> b20957a9dbbb6b4a2718883be1df85de4c1fc60e
 
 #function specific to polynomial regression
 #creating data for polynomial regression which returns all the degree of x value
