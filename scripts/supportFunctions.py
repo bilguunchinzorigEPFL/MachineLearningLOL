@@ -1,5 +1,6 @@
 import numpy as np
-#LOSS calculators
+
+# LOSS calculators
 def loss_mse(y,tx,w):
     e=y-np.dot(tx,w) #TODO: figure this out
     return sum(e**2)/(y.shape[0])
@@ -7,25 +8,35 @@ def loss_rmse(y,tx,w):
     return np.sqrt(loss_mse(y,tx,w))
 
 #GRADIENT and loss calculators
+
 #mean square error gradient
 def gradient_mse(y,tx,w):
     rows,cols=np.indices(tx.shape)
     tmp=y-np.sum(np.multiply(w[cols],tx),axis=1)
     return np.sum(np.multiply(tmp[rows],tx),axis=0)/(-y.shape[0]), sum(tmp**2)/(y.shape[0])
+
 #root mean square error gradient
 def gradient_rmse(y,tx,w):
     grad, loss=gradient_mse(y,tx,w)
     return grad/loss, np.sqrt(loss)
+
 #stochastic mean square error gradient
 def gradient_mse_sto(y,tx,w,batch_size):
     #getting random sample
     target=np.random.choice(range(0,len(y)),size=batch_size)
     #calculating the gradient
     return gradient_mse(y[target],tx[target],w)
+<<<<<<< HEAD
+
+#regularization parameter gradient
+def gradient_reg(w,lambda_):
+    return 2*lamb*w
+=======
 #regularization parameter gradient and loss
 def regulizer(w,lambda_):
     reg=np.absolute(w)
     return lambda_*reg,lambda_*np.sum(reg**2)
+>>>>>>> b20957a9dbbb6b4a2718883be1df85de4c1fc60e
 
 #function specific to polynomial regression
 #creating data for polynomial regression which returns all the degree of x value
@@ -34,9 +45,18 @@ def build_poly(x, degree):
     degree+=1
     powers=np.ones([x.shape[1]*degree,x.shape[0]])
     for f in range(0,x.shape[1]):
-        for d in range(0,degree):
+        for d in range(1,degree):
             powers[:,f*degree+d]=x[:,f]**d
     return powers
+
+# Build polynomial for chosen features in the raw vector pol
+
+def build_poly_reg(x,pol, degree):
+    power=x
+    for f in range(0,len(pol)):
+    	for d in range(2,degree):
+	        power=np.c_[power,x[:,pol[f]]**d]
+    return power
 
 #Weight initializer
 def weight_init(size,lower=0,upper=1):
@@ -45,8 +65,8 @@ def weight_init(size,lower=0,upper=1):
 
 #Logistic regression
 
-def logistic_pdf(y,tx,w):
-	logistic_pdf=np.ones((len(y)))/(np.ones((len(y)))+np.exp(-np.dot(tx,w)))
+def logistic_pdf(tx,w):
+	logistic_pdf=np.ones((len(tx)))/(np.ones((len(tx)))+np.exp(-np.dot(tx,w)))
 	return logistic_pdf
 	
 def logistic_gradient(y,tx,w):
