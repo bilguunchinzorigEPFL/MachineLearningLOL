@@ -45,11 +45,9 @@ def ridge_regression(y, tx, lambda_):
 
 #5 Logistic Regression 
 #5.1 GD
-def logistic_regression(y,tx,max_iters,gamma,w_initial=None):
-    if w_initial==None:
-        w_initial = weight_init(tx.shape[1])
+
+def logistic_regression(y,tx,max_iters,gamma,w_initial):
     w=[w_initial]
-    losses = []
     log_likelihood=[]
     w = w_initial
     for n_iter in range(max_iters):
@@ -57,11 +55,34 @@ def logistic_regression(y,tx,max_iters,gamma,w_initial=None):
         grad=logistic_gradient(y,tx,w)
         w=w+gamma*grad
         log_likelihood.append([log_like])
-        print("Logistic Regression Gradient Descent({bi}/{ti}): like={l}".format(
+        #raise NotImplementedError
+        print("Gradient Descent({bi}/{ti}): like={l}".format(
              bi=n_iter, ti=max_iters - 1,l=log_like))
-    return  w, losses
+    return  w, log_likelihood
+    
+#5.1.1 GD
+def logistic_regression2(y,tx,max_iters,gamma,w_initial):
+    w=[w_initial]
+    log_likelihood=[]
+    w = w_initial
+    for n_iter in range(max_iters):
+        log_like=logistic_log_likelihood(y,tx,w)
+        grad=logistic_gradient(y,tx,w)
+        w_1=w+gamma*grad+np.random.normal(0,100,tx.shape[1])
+        log_like_1=logistic_log_likelihood(y,tx,w_1)
+        if log_like_1>log_like:
+            w=w_1
+        else :
+            w=w
+        log_likelihood.append([log_like])
+        #raise NotImplementedError
+        print("Gradient Descent({bi}/{ti}): like={l}".format(
+             bi=n_iter, ti=max_iters - 1,l=log_like))
+    return  w, log_likelihood
+    
+    
 
-#5.1  Stochastic GD 
+#5.2  Stochastic GD 
 def stoch_log_regr(
     y, x, initial_w, batch_size, max_iters, gamma):
     ws = [initial_w]

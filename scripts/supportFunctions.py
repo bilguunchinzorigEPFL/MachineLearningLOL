@@ -57,13 +57,27 @@ def weight_init(size,lower=0,upper=1):
 
 #Logistic regression
 
-def logistic_pdf(tx,w):
-	logistic_pdf=np.ones((len(tx)))/(np.ones((len(tx)))+np.exp(-np.dot(tx,w)))
+#def logistic_pdf(tx,w):
+#	logistic_pdf=np.ones((tx.shape[0]))/(np.ones((tx.shape[0]))+np.exp(-(np.dot(tx,w))))
+#	return logistic_pdf
+
+def logistic_pdf(y,tx,w):
+	logistic_pdf=np.ones((len(y)))/(np.ones((len(y)))+np.exp(-np.dot(tx,w)))
 	return logistic_pdf
 	
 def logistic_gradient(y,tx,w):
     log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))
     return log_grad
+	
+	
+#def logistic_gradient(y,tx,w):
+ #   log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(tx,w)))
+  #  return log_grad
+
+#def logistic_log_likelihood(y,tx,w):
+#	logisticpdf=logistic_pdf(tx,w)
+#	log_likelihood=np.dot(np.transpose(y),logisticpdf)+np.dot(np.transpose(np.ones((len(y)))-y),np.ones((len(y)))-logisticpdf)
+#	return log_likelihood
 
 def logistic_log_likelihood(y,tx,w):
 	logisticpdf=logistic_pdf(y,tx,w)

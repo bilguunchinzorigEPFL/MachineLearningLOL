@@ -27,6 +27,7 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
     # convert class labels from strings to binary (1,0).We assign 1 for label "b" and 0 otherwise
     yb = np.zeros(len(y))
     yb[np.where(y=='b')] = 1
+
     
     #converting NA's
     input_data[input_data == -999] = null_replace
@@ -73,8 +74,8 @@ def create_csv_submission(ids, y_pred, name):
             writer.writerow({'Id':int(r1),'Prediction':int(r2)})
 
 
-
 def submit(name,test_path,weights,null_replace=0, standard=False,threshold=0.5,islogistic=False):
+
     #read data
     x = np.genfromtxt(test_path, delimiter=",", skip_header=1)
     ids = x[:, 0].astype(np.int)
