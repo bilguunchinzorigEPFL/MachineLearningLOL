@@ -95,3 +95,46 @@ def logistic_regression_reg(y,tx,max_iters,gamma,lambda_,w_initial=None):
         print("Logistic Regression Gradient Descent({bi}/{ti}): like={l}".format(
              bi=n_iter, ti=max_iters - 1,l=log_like))
     return  w, losses
+
+
+#Bilguun Logistic------------------------------------------------------------------------------
+def sigmoid(t):
+    return 1/(1+np.exp(-t))
+
+def calculate_loss(y, tx, w):
+    x=np.dot(tx,w)
+    e=np.around(sigmoid(x))-y
+    return np.sum(np.absolute(e))/y.shape[0]
+
+def calculate_gradient(y, tx, w):
+    x=np.dot(tx,w)
+    tmp=sigmoid(x)-y
+    return np.dot(tx.transpose(),tmp)/y.shape[0]
+
+def learning_by_gradient_descent(y, tx, w, gamma):
+    #loss=calculate_loss(y,tx,w)
+    g=calculate_gradient(y,tx,w)
+    w=w-gamma*g
+    return w
+
+def logistic_regression_gradient_descent_demo(y, tx):
+    # init parameters
+    max_iter = 10000
+    threshold = 1e-8
+    gamma = 0.1
+    losses = []
+    y=np.matrix(y).transpose()
+    w = np.matrix(sp.weight_init(tx.shape[1])).transpose()
+    tr_idx,te_idx=helper.split_data(y,0.8)
+    # start the logistic regression
+    for iter in range(max_iter):
+        # get loss and update w.
+        w = learning_by_gradient_descent(y[tr_idx],tx[tr_idx], w, gamma)
+        loss=calculate_loss(y[te_idx],tx[te_idx],w)
+        # log info
+        print("Current iteration={i}, loss={l}".format(i=iter, l=loss))
+        # converge criterion
+        losses.append(loss)
+        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            break
+    return w

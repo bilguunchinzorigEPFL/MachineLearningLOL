@@ -53,7 +53,6 @@ def build_poly_reg(x,pol, degree):
 
 #Weight initializer
 def weight_init(size,lower=0,upper=1):
-#<<<<<<< HEAD
     return np.random.rand(size)*(upper-lower)+lower
 
 #Logistic regression

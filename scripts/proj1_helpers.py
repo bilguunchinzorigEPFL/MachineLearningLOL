@@ -45,14 +45,12 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
 
 def predict_labels(weights, data, threshold,islogistic=False):
     """Generates class predictions given weights, and a test data matrix"""
-<<<<<<< HEAD
     if islogistic==True:
-	    y_pred=logistic_pdf(data,weights)
-=======
-    if islogistic:
-	    y_pred=logistic_pdf(y,tx,w)
->>>>>>> b20957a9dbbb6b4a2718883be1df85de4c1fc60e
-    else :
+        x=np.dot(data,weights[:data.shape[1]])
+        x=x+np.dot(data**2,weights[data.shape[1]:])
+        y_pred=1/(1+np.exp(-x))
+        y_pred=1-y_pred
+    else:
 	    y_pred = np.dot(data, weights)
     y_pred[np.where(y_pred <= threshold)] = -1
     y_pred[np.where(y_pred > threshold)] = 1
@@ -76,11 +74,7 @@ def create_csv_submission(ids, y_pred, name):
 
 
 
-<<<<<<< HEAD
-def submit(name,test_path,weights,null_replace=0, standard=False,islogistic=False):#here we need o add y, x,weights??
-=======
 def submit(name,test_path,weights,null_replace=0, standard=False,threshold=0.5,islogistic=False):
->>>>>>> b20957a9dbbb6b4a2718883be1df85de4c1fc60e
     #read data
     x = np.genfromtxt(test_path, delimiter=",", skip_header=1)
     ids = x[:, 0].astype(np.int)
