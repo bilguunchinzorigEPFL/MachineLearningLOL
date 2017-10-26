@@ -1,12 +1,20 @@
 import numpy as np
 
 # LOSS calculators
+def sigmoid(t):
+    return 1/(1+np.exp(-t))
+def loss_logistic(y, tx, w):
+    x=np.dot(tx,w)
+    e=np.around(sigmoid(x))-y
+    return np.mean(np.absolute(e))
 def loss_mse(y,tx,w):
     e=y-np.dot(tx,w) #TODO: figure this out
     return sum(e**2)/(y.shape[0])
 def loss_rmse(y,tx,w):
     return np.sqrt(loss_mse(y,tx,w))
-
+def loss_abs(y,tx,w):
+    e=y-np.around(np.dot(tx,w))
+    return np.mean(np.absolute(e),axis=0)
 #GRADIENT and loss calculators
 
 #mean square error gradient
@@ -42,6 +50,11 @@ def build_poly(x, degree):
             powers[:,f*degree+d]=x[:,f]**d
     return powers
 
+def gradient_logistic(y, tx, w):
+    x=np.dot(tx,w)
+    tmp=sigmoid(x)-y
+    return np.dot(tx.transpose(),tmp)/y.shape[0]
+
 # Build polynomial for chosen features in the raw vector pol
 
 def build_poly_reg(x,pol, degree):
@@ -66,7 +79,7 @@ def logistic_pdf(y,tx,w):
 	return logistic_pdf
 	
 def logistic_gradient(y,tx,w):
-    log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))
+    log_grad=np.dot(np.transpose(tx),(logistic_pdf(y,tx,w)-y))
     return log_grad
 	
 	
@@ -90,4 +103,3 @@ def compute_stoch_logistic_gradient(y, x, w, batch_size):
     x=x[np.transpose(index),:] 
     stoch_log_gradient=logistic_gradient(y, x, w)
     return stoch_log_gradient
-    

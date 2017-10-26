@@ -14,10 +14,25 @@ def split_data(y, ratio=0.8, seed=1):
 def standardize(x):
     centered_data = x - np.mean(x, axis=0)
     std_data = centered_data / np.std(centered_data, axis=0)
-    
     return std_data
-
-def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
+#normalize the data
+def normalize(x,min_= -1,max_=1):
+    return min_+((x-np.min(x))*(max_-min_))/(np.max(x)-np.min(x))
+#null replacer
+def null_replacer(x,null_val= -999):
+    for c in range(0,x.shape[1]):
+        total=0
+        num=0
+        nulls=[]
+        for r in range(0,x.shape[0]):
+            val=x[r,c]
+            if val!=null_val:
+                num+=1
+                total+=val
+            else: nulls.append(r)
+        x[nulls,c]=total/num
+    return x
+def load_csv_data(data_path, sub_sample=False, null_replace=None, standard=False, normal=False, n_min= -1,n_max=1):
     """Loads data and returns y (class labels), tX (features) and ids (event ids)"""
     y = np.genfromtxt(data_path, delimiter=",", skip_header=1, dtype=str, usecols=1)
     x = np.genfromtxt(data_path, delimiter=",", skip_header=1)
@@ -27,14 +42,14 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
     # convert class labels from strings to binary (1,0).We assign 1 for label "b" and 0 otherwise
     yb = np.zeros(len(y))
     yb[np.where(y=='b')] = 1
-
-    
     #converting NA's
-    input_data[input_data == -999] = null_replace
-
+    if null_replace==None:
+        input_data=null_replacer(input_data)
+    else: input_data[input_data == -999] = null_replace
     if standard:
         input_data=standardize(input_data)
-
+    if normal:
+        input_data=normalize(input_data,n_min,n_max)
     # sub-sample
     if sub_sample:
         yb = yb[::50]
@@ -44,13 +59,11 @@ def load_csv_data(data_path, sub_sample=False, null_replace=0, standard=False):
     return yb, input_data, ids
 
 
-def predict_labels(weights, data, threshold,islogistic=False):
+def predict_labels(weights, data, threshold=0.5,islogistic=False):
     """Generates class predictions given weights, and a test data matrix"""
     if islogistic==True:
-        x=np.dot(data,weights[:data.shape[1]])
-        x=x+np.dot(data**2,weights[data.shape[1]:])
+        x=np.dot(data,weights)
         y_pred=1/(1+np.exp(-x))
-        y_pred=1-y_pred
     else:
 	    y_pred = np.dot(data, weights)
     y_pred[np.where(y_pred <= threshold)] = -1
@@ -72,18 +85,3 @@ def create_csv_submission(ids, y_pred, name):
         writer.writeheader()
         for r1, r2 in zip(ids, y_pred):
             writer.writerow({'Id':int(r1),'Prediction':int(r2)})
-
-
-def submit(name,test_path,weights,null_replace=0, standard=False,threshold=0.5,islogistic=False):
-
-    #read data
-    x = np.genfromtxt(test_path, delimiter=",", skip_header=1)
-    ids = x[:, 0].astype(np.int)
-    data = x[:, 2:]
-    #replacing null
-    data[data == -999] = null_replace
-    #standardize data
-    if standard:
-        data=standardize(data)
-    predicted=predict_labels(weights,data,threshold,islogistic)
-    create_csv_submission(ids,predicted,name)
