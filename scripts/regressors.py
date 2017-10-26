@@ -1,6 +1,9 @@
 import numpy as np
 from scripts.supportFunctions import *
+<<<<<<< HEAD
 import scripts.supportFunctions as sp
+=======
+>>>>>>> b75765da9cca20c4ddf8311d6f45f84c18cb48d3
 import scripts.proj1_helpers as helper
 #These are the main regression functions which returns weights and losses
 #1 least square gd
@@ -36,8 +39,8 @@ def stochastic_gradient_descent(y, tx, batch_size, max_iters, gamma, initial_w=N
 #3 least squaress
 def least_squares(y, tx):
     w=np.dot(np.linalg.inv(np.dot(np.transpose(tx),tx)),np.dot(np.transpose(tx),y))
-    mse=loss_mse(y, tx, w)
-    return w, mse
+    #mse=loss_mse(y, tx, w)
+    return w
 
 #4 ridge regression    
 def ridge_regression(y, tx, lambda_):    
@@ -121,43 +124,46 @@ def logistic_regression_reg(y,tx,max_iters,gamma,lambda_,w_initial=None):
 
 
 #Bilguun Logistic------------------------------------------------------------------------------
-def sigmoid(t):
-    return 1/(1+np.exp(-t))
-
-def calculate_loss(y, tx, w):
-    x=np.dot(tx,w)
-    e=np.around(sigmoid(x))-y
-    return np.sum(np.absolute(e))/y.shape[0]
-
-def calculate_gradient(y, tx, w):
-    x=np.dot(tx,w)
-    tmp=sigmoid(x)-y
-    return np.dot(tx.transpose(),tmp)/y.shape[0]
-
-def learning_by_gradient_descent(y, tx, w, gamma):
-    #loss=calculate_loss(y,tx,w)
-    g=calculate_gradient(y,tx,w)
-    w=w-gamma*g
-    return w
-
-def logistic_regression_gradient_descent_demo(y, tx):
+def logistic_regression_bilguun(y, tx, threshold=1e-8, gamma=0.1):
     # init parameters
     max_iter = 10000
-    threshold = 1e-8
-    gamma = 0.1
     losses = []
     y=np.matrix(y).transpose()
-    w = np.matrix(sp.weight_init(tx.shape[1])).transpose()
+    w = np.matrix(weight_init(tx.shape[1])).transpose()
     tr_idx,te_idx=helper.split_data(y,0.8)
     # start the logistic regression
     for iter in range(max_iter):
         # get loss and update w.
-        w = learning_by_gradient_descent(y[tr_idx],tx[tr_idx], w, gamma)
-        loss=calculate_loss(y[te_idx],tx[te_idx],w)
+        g=gradient_logistic(y[tr_idx],tx[tr_idx],w)
+        w=w-gamma*g
+        loss=loss_logistic(y[te_idx],tx[te_idx],w)
         # log info
         print("Current iteration={i}, loss={l}".format(i=iter, l=loss))
         # converge criterion
         losses.append(loss)
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break
-    return w
+    return w, loss
+
+#Bilguun Logistic------------------------------------------------------------------------------
+def logistic_regression_bilguun_reg(y, tx, threshold=1e-8, gamma=0.1,lambda_=0):
+    # init parameters
+    max_iter = 10000
+    losses = []
+    y=np.matrix(y).transpose()
+    w = np.matrix(weight_init(tx.shape[1])).transpose()
+    tr_idx,te_idx=helper.split_data(y,0.8)
+    # start the logistic regression
+    for iter in range(max_iter):
+        # get loss and update w.
+        g=gradient_logistic(y[tr_idx],tx[tr_idx],w)
+        reg_grad,reg_loss=regulizer(w,lambda_)
+        w=w-gamma*(g+lambda_+reg_grad)
+        loss=loss_logistic(y[te_idx],tx[te_idx],w)
+        # log info
+        print("Current iteration={i}, loss={l}".format(i=iter, l=loss))
+        # converge criterion
+        losses.append(loss)
+        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            break
+    return w, loss
