@@ -1,5 +1,6 @@
 import numpy as np
 
+
 # LOSS calculators
 def loss_mse(y,tx,w):
     e=y-np.dot(tx,w) #TODO: figure this out
@@ -66,7 +67,7 @@ def logistic_pdf(y,tx,w):
 	return logistic_pdf
 	
 def logistic_gradient(y,tx,w):
-    log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))
+    log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))/(len(y))
     return log_grad
 	
 	
