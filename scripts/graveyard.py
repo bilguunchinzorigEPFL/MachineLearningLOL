@@ -90,3 +90,27 @@ def degree_calc(tx,weight,degree):
     return y_pred
 pred=degree_calc(w,gtx,2)
 helper.create_csv_submission(ids,pred,'JustTesting')
+
+#Cascader
+def pred_cascader(tx,ws,num=10):
+    w_tx=np.ones([tx.shape[0],num+1])
+    for n in range(0,num):
+        x=np.dot(tx,ws[n])
+        exp_x=np.exp(x)
+        w_tx[:,n]=gen_pdf(1,x,exp_x)
+    x=np.dot(w_tx,ws[num])
+    exp_x=np.exp(x)
+    return np.around(gen_pdf(1,x,exp_x))
+def cascader(y,tx,num=10):
+    w_tx=np.ones([tx.shape[0],num+1])
+    ws=[]
+    for n in range(0,num):
+        w=gen_grad_regression(y,tx)
+        ws.append(w)
+        x=np.dot(tx,w)
+        exp_x=np.exp(x)
+        w_tx[:,n]=gen_pdf(y,x,exp_x)
+        print(n)
+    w=gen_grad_regression(y,w_tx)
+    ws.append(w)
+    return ws
