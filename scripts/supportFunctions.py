@@ -42,7 +42,7 @@ def regulizer(w,lambda_):
 
 #function specific to polynomial regression
 #creating data for polynomial regression which returns all the degree of x value
-#for example if x.shape=[n,f] then it returns [n,f*degree] sized matrix
+#for example if x.shape=[n,f] then it returns [n,f* ] sized matrix
 def build_poly(x, degree):
     degree+=1
     powers=np.ones([x.shape[0],x.shape[1]*degree])

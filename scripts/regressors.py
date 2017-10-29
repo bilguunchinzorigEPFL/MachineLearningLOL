@@ -162,3 +162,76 @@ def logistic_regression_bilguun_reg(y, tx, threshold=1e-8, gamma=0.1,lambda_=0):
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break
     return w, loss
+
+#General regularized function
+#TODO define functions here
+def h(y):
+    return 1
+def ro(x):
+    return x
+def psi(y):
+    return y
+def A(x,exp_x):
+    return np.log(1+exp_x)
+def grad_ro(x): #gradient of ro without x
+    return 1
+def grad_A(x,exp_x):
+    return exp_x/(1+exp_x)
+#main calculation
+def gen_likelihood(y,x,exp_x): #used h, Ro, Psi, A
+    return np.sum(np.log(h(y))+ro(x)*psi(y)-A(x,exp_x))/y.shape[0]
+def gen_gradient(y,tx,x,exp_x): #used Gradient Ro, Gradient A, Psi
+    return np.dot(np.transpose(tx),(grad_ro(x)*psi(y)-grad_A(x,exp_x)))/y.shape[0]
+#tester
+def gen_pdf(y,x,exp_x):
+    return (exp_x*y)/(1+exp_x)
+def gen_tester(y,x,exp_x):
+    y_pred=gen_pdf(1,x,exp_x)
+    y_pred[np.where(y_pred <= 0.5)] = 0
+    y_pred[np.where(y_pred > 0.5)] = 1
+    e=y-y_pred
+    return np.mean(np.absolute(e))
+#main regressor
+def gen_grad_regression(y,tx,max_iter=1000,gamma=0.1,threshold=1e-8):
+    w=weight_init(tx.shape[1])
+    tr_idx,te_idx=helper.split_data(y,0.9)
+    losses=[]
+    for i in range(0,max_iter):
+        x=np.dot(tx,w)
+        exp_x=np.exp(x)
+        g=gen_gradient(y[tr_idx],tx[tr_idx],x[tr_idx],exp_x[tr_idx])
+        like=gen_likelihood(y[te_idx],x[te_idx],exp_x[te_idx])
+        loss=gen_tester(y[te_idx],x[te_idx],exp_x[te_idx])
+        w=w+gamma*g
+        if i%100==0:
+            print("Current iteration={i}, loss={l}, like={like}".format(i=i, l=loss,like=like))
+        losses.append(like)
+        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            break
+    return w
+
+#Cascader
+def pred_grad_booster(tx,ws,alpha=1):
+    y_pred=np.zeros(tx.shape[0])
+    for w in ws:
+        x=np.dot(tx,w)
+        exp_x=np.exp(x)
+        pred=gen_pdf(1,x,exp_x)
+        y_pred=y_pred+alpha*pred-0.5
+    y_pred[np.where(y_pred > 0)] = 1
+    y_pred[np.where(y_pred <= 0)] = -1
+    return y_pred
+def grad_booster(y,tx,num=10,alpha=1):
+    ws=[]
+    orig_y=y
+    for n in range(0,num):
+        w=gen_grad_regression(y,tx)
+        ws.append(w)
+        x=np.dot(tx,w)
+        exp_x=np.exp(x)
+        pred=gen_pdf(1,x,exp_x)
+        y=y-alpha*pred+0.5
+        pred=pred_grad_booster(tx,ws)
+        err=np.mean(np.absolute(orig_y-pred))
+        print("iter={i}, residual={r}, err={e}".format(i=n,r=np.mean(np.absolute(y)),e=err))
+    return ws
