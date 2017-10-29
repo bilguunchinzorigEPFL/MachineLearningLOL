@@ -1,9 +1,5 @@
 import numpy as np
 from scripts.supportFunctions import *
-<<<<<<< HEAD
-import scripts.supportFunctions as sp
-=======
->>>>>>> b75765da9cca20c4ddf8311d6f45f84c18cb48d3
 import scripts.proj1_helpers as helper
 #These are the main regression functions which returns weights and losses
 #1 least square gd
@@ -58,7 +54,7 @@ def logistic_regression(y,tx,max_iters,gamma,w_initial):
     for n_iter in range(max_iters):
         log_like=logistic_log_likelihood(y,tx,w)
         grad=logistic_gradient(y,tx,w)
-        w=w+gamma*grad+np.random.normal(0,100,tx.shape[1])
+        w=w+gamma*grad
         log_likelihood.append([log_like])
         #raise NotImplementedError
         print("Gradient Descent({bi}/{ti}): like={l}".format(
@@ -67,13 +63,12 @@ def logistic_regression(y,tx,max_iters,gamma,w_initial):
     
 #5.1.1 GD
 def logistic_regression2(y,tx,max_iters,gamma,w_initial):
-    w=[w_initial]
     log_likelihood=[]
     w = w_initial
     for n_iter in range(max_iters):
         log_like=logistic_log_likelihood(y,tx,w)
         grad=logistic_gradient(y,tx,w)
-        w_1=w+gamma*grad
+        w_1=w+gamma*grad+np.random.normal(0,100,tx.shape[1])
         log_like_1=logistic_log_likelihood(y,tx,w_1)
         if log_like_1>log_like:
             w=w_1
