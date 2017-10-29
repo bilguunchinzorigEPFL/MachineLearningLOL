@@ -48,7 +48,6 @@ def ridge_regression(y, tx, lambda_):
 #5.1 GD
 
 def logistic_regression(y,tx,max_iters,gamma,w_initial):
-    w=[w_initial]
     log_likelihood=[]
     w = w_initial
     for n_iter in range(max_iters):
@@ -59,7 +58,7 @@ def logistic_regression(y,tx,max_iters,gamma,w_initial):
         #raise NotImplementedError
         print("Gradient Descent({bi}/{ti}): like={l}".format(
              bi=n_iter, ti=max_iters - 1,l=log_like))
-    return  w, log_likelihood
+    return  w
     
 #5.1.1 GD
 def logistic_regression2(y,tx,max_iters,gamma,w_initial):
@@ -78,7 +77,7 @@ def logistic_regression2(y,tx,max_iters,gamma,w_initial):
         #raise NotImplementedError
         print("Gradient Descent({bi}/{ti}): like={l}".format(
              bi=n_iter, ti=max_iters - 1,l=log_like))
-    return  w, log_likelihood
+    return  w
     
     
 
