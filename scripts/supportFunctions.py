@@ -80,11 +80,7 @@ def logistic_pdf(y,tx,w):
 	return logistic_pdf
 	
 def logistic_gradient(y,tx,w):
-<<<<<<< HEAD
     log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))/(len(y))
-=======
-    log_grad=np.dot(np.transpose(tx),(logistic_pdf(y,tx,w)-y))
->>>>>>> b75765da9cca20c4ddf8311d6f45f84c18cb48d3
     return log_grad
 	
 	

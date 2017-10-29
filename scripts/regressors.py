@@ -1,9 +1,6 @@
 import numpy as np
 from scripts.supportFunctions import *
-<<<<<<< HEAD
 import scripts.supportFunctions as sp
-=======
->>>>>>> b75765da9cca20c4ddf8311d6f45f84c18cb48d3
 import scripts.proj1_helpers as helper
 #These are the main regression functions which returns weights and losses
 #1 least square gd
@@ -172,41 +169,41 @@ def logistic_regression_bilguun_reg(y, tx, threshold=1e-8, gamma=0.1,lambda_=0):
 #TODO define functions here
 def h(y):
     return 1
-def ro(x):
-    return x
+def ro(x,var):
+    return np.array([x/var,[-0.5/var]*x.shape[0]]).transpose()
 def psi(y):
-    return y
-def A(x,exp_x):
-    return np.log(1+exp_x)
-def grad_ro(x): #gradient of ro without x
-    return 1
-def grad_A(x,exp_x):
-    return exp_x/(1+exp_x)
+    return np.array([y,y**2]).transpose()
+def A(x,var):
+    return (x**2)/(2*var)
+def grad_ro(x,var):#gradient of ro without x
+    return np.array([[1/var]*x.shape[0],[0]*x.shape[0]]).transpose()
+def grad_A(x,var):
+    return x/var
 #main calculation
-def gen_likelihood(y,x,exp_x): #used h, Ro, Psi, A
-    return np.sum(np.log(h(y))+ro(x)*psi(y)-A(x,exp_x))/y.shape[0]
-def gen_gradient(y,tx,x,exp_x): #used Gradient Ro, Gradient A, Psi
-    return np.dot(np.transpose(tx),(grad_ro(x)*psi(y)-grad_A(x,exp_x)))/y.shape[0]
+def gen_likelihood(y,x,var): #used h, Ro, Psi, A
+    return np.sum(np.log(h(y))+np.sum(ro(x,var)*psi(y),axis=1)-A(x,var))/y.shape[0]
+def gen_gradient(y,tx,x,var): #used Gradient Ro, Gradient A, Psi
+    return np.dot(np.transpose(tx),(np.sum(grad_ro(x,var)*psi(y),axis=1)-grad_A(x,var)))/y.shape[0]
 #tester
-def gen_pdf(y,x,exp_x):
-    return (exp_x*y)/(1+exp_x)
-def gen_tester(y,x,exp_x):
-    y_pred=gen_pdf(1,x,exp_x)
+def gen_pdf(y,x,var):
+    return np.exp(-((y-x)**2)/(2*var))
+def gen_tester(y,x,var):
+    y_pred=gen_pdf(1,x,var)
     y_pred[np.where(y_pred <= 0.5)] = 0
     y_pred[np.where(y_pred > 0.5)] = 1
     e=y-y_pred
     return np.mean(np.absolute(e))
 #main regressor
-def gen_grad_regression(y,tx,max_iter=1000,gamma=0.1,threshold=1e-8):
+def gen_grad_regression(y,tx,var,max_iter=1000,gamma=0.1,threshold=1e-8):
     w=weight_init(tx.shape[1])
     tr_idx,te_idx=helper.split_data(y,0.9)
     losses=[]
     for i in range(0,max_iter):
         x=np.dot(tx,w)
-        exp_x=np.exp(x)
-        g=gen_gradient(y[tr_idx],tx[tr_idx],x[tr_idx],exp_x[tr_idx])
-        like=gen_likelihood(y[te_idx],x[te_idx],exp_x[te_idx])
-        loss=gen_tester(y[te_idx],x[te_idx],exp_x[te_idx])
+        #exp_x=np.exp(x)
+        g=gen_gradient(y[tr_idx],tx[tr_idx],x[tr_idx],var=var)
+        like=gen_likelihood(y[te_idx],x[te_idx],var=var)
+        loss=gen_tester(y[te_idx],x[te_idx],var=var)
         w=w+gamma*g
         if i%100==0:
             print("Current iteration={i}, loss={l}, like={like}".format(i=i, l=loss,like=like))
@@ -214,6 +211,22 @@ def gen_grad_regression(y,tx,max_iter=1000,gamma=0.1,threshold=1e-8):
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break
     return w
+def grad_sigma(y,x,var):
+    e=((y-x)**2)/2
+    return np.mean(e/(var**2))
+#parameter estimation
+def normal_regression(y,tx,max_iter=50,gamma=0.1,threshold=1e-8):
+    var=weight_init(1)[0]
+    tr_idx,te_idx=helper.split_data(y,0.9)
+    losses=[]
+    for i in range(0,max_iter):
+        w=gen_grad_regression(y[tr_idx],tx[tr_idx],var=var,max_iter=101,gamma=0.1)
+        x=np.dot(tx,w)
+        var_grad=grad_sigma(y,x,var)
+        loss=gen_tester(y[te_idx],x[te_idx],var=var)
+        print("V_iter={i}, loss={l}, var={var}".format(i=i, l=(-var_grad*var),var=var))
+        var=var+gamma*var_grad
+    return var
 
 #Cascader
 def pred_grad_booster(tx,ws,alpha=1):
