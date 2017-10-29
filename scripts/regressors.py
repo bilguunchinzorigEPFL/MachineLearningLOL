@@ -2,7 +2,7 @@ import numpy as np
 from scripts.supportFunctions import *
 import scripts.supportFunctions as sp
 import scripts.proj1_helpers as helper
-
+from Probit import *
 #These are the main regression functions which returns weights and losses
 #1 least square gd
 def gradient_descent(y, tx, max_iters, gamma, initial_w=None):
@@ -377,14 +377,14 @@ def glr(y,x,max_iters=10000,gamma=0.5,w_initial='zeros',type='logistic'):
         w_initial=np.ones(x.shape[1])
     else: 
         w_initial=np.random.rand(x.shape[1])
+    w = w_initial
     if type=='logistic':
-        w = w_initial
         for n_iter in range(max_iters):
             loss=-logistic_log_likelihood(y,x,w)
             grad=logistic_gradient(y,x,w)
             w_1=w-gamma*grad+np.random.normal(0,100,x.shape[1])
             loss_1=-logistic_log_likelihood(y,x,w_1)
-            if loss_1>loss:
+            if loss_1<loss:
                 w=w_1
             else :
                 w=w
@@ -396,9 +396,9 @@ def glr(y,x,max_iters=10000,gamma=0.5,w_initial='zeros',type='logistic'):
         for n_iter in range(max_iters):
             loss=-probit_log_likelihood(y,x,w)
             grad=probit_gradient(y,x,w)
-            w_1=w-gamma*grad+np.random.normal(0,100,tx.shape[1])
-            loss_1=-probit_log_likelihood(y,tx,w_1)
-            if loss_1>loss:
+            w_1=w-gamma*grad+np.random.normal(0,100,x.shape[1])
+            loss_1=-probit_log_likelihood(y,x,w_1)
+            if loss_1<loss:
                 w=w_1
             else :
                 w=w
