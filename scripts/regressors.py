@@ -59,6 +59,19 @@ def logistic_regression(y,tx,max_iters,gamma,w_initial):
         print("Gradient Descent({bi}/{ti}): like={l}".format(
              bi=n_iter, ti=max_iters - 1,l=log_like))
     return  w
+
+def logistic_regression_regularized(y,tx,max_iters,gamma,w_initial,lambda_):
+    log_likelihood=[]
+    w = w_initial
+    for n_iter in range(max_iters):
+        log_like=logistic_log_likelihood(y,tx,w)
+        grad=logistic_gradient(y,tx,w)
+        w=w+gamma*grad-lambda_*w
+        log_likelihood.append([log_like])
+        #raise NotImplementedError
+        print("Gradient Descent({bi}/{ti}): like={l}".format(
+             bi=n_iter, ti=max_iters - 1,l=log_like))
+    return  w
     
 #5.1.1 GD
 def logistic_regression2(y,tx,max_iters,gamma,w_initial):
@@ -79,7 +92,23 @@ def logistic_regression2(y,tx,max_iters,gamma,w_initial):
              bi=n_iter, ti=max_iters - 1,l=log_like))
     return  w
     
-    
+def logistic_regression_regularized2(y,tx,max_iters,gamma,w_initial,lambda_):
+    log_likelihood=[]
+    w = w_initial
+    for n_iter in range(max_iters):
+        log_like=logistic_log_likelihood(y,tx,w)
+        grad=logistic_gradient(y,tx,w)
+        w_1=w+gamma*grad-2*lambda_*w+np.random.normal(0,100,tx.shape[1])
+        log_like_1=logistic_log_likelihood(y,tx,w_1)
+        if log_like_1>log_like:
+            w=w_1
+        else :
+            w=w
+        log_likelihood.append([log_like])
+        #raise NotImplementedError
+        print("Gradient Descent({bi}/{ti}): like={l}".format(
+             bi=n_iter, ti=max_iters - 1,l=log_like))
+    return  w    
 
 #5.2  Stochastic GD 
 def stoch_log_regr(

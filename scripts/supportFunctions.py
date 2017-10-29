@@ -50,6 +50,21 @@ def build_poly(x, degree):
         for d in range(1,degree):
             powers[:,f*degree+d]=x[:,f]**d
     return powers
+# Function to obtain radial basis 
+#def build_radialbasis(x, type=gaussian): 
+    # Arguments: X= Matrix of features 
+    # Type: type of radial basis. Options available: 1. Gaussian, 2. Thin plate spline 
+ #   if type=Gaussian:
+
+
+  #  else:
+        
+   # powers=np.ones([x.shape[0],x.shape[1]*degree])
+   # for f in range(0,x.shape[1]):
+    #    for d in range(1,degree):
+     #       powers[:,f*degree+d]=x[:,f]**d
+    #return powers
+# Function to obtain polar basis 
 
 def gradient_logistic(y, tx, w):
     x=np.dot(tx,w)
