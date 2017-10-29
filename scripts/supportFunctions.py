@@ -3,7 +3,7 @@ import numpy as np
 
 # LOSS calculators
 def sigmoid(t):
-    return 1/(1+np.exp(-t))
+    return 1/(1+np.exp(-t))     
 def loss_logistic(y, tx, w):
     x=np.dot(tx,w)
     e=np.around(sigmoid(x))-y
@@ -45,7 +45,7 @@ def regulizer(w,lambda_):
 #for example if x.shape=[n,f] then it returns [n,f* ] sized matrix
 def build_poly(x, degree):
     degree+=1
-    powers=np.ones([x.shape[1]*degree,x.shape[0]])
+    powers=np.ones([x.shape[0],x.shape[1]*degree])
     for f in range(0,x.shape[1]):
         for d in range(1,degree):
             powers[:,f*degree+d]=x[:,f]**d
@@ -65,6 +65,8 @@ def build_poly_reg(x,pol, degree):
 	        power=np.c_[power,x[:,pol[f]]**d]
     return power
 
+# Obtain radial basis 
+
 #Weight initializer
 def weight_init(size,lower=0,upper=1):
     return np.random.rand(size)*(upper-lower)+lower
@@ -76,8 +78,8 @@ def weight_init(size,lower=0,upper=1):
 #	return logistic_pdf
 
 def logistic_pdf(y,tx,w):
-	logistic_pdf=np.ones((len(y)))/(np.ones((len(y)))+np.exp(-np.dot(tx,w)))
-	return logistic_pdf
+    logistic_pdf=np.exp(np.dot(tx,w))/(np.ones((len(y)))+np.exp(np.dot(tx,w)))
+    return logistic_pdf
 	
 def logistic_gradient(y,tx,w):
     log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))/(len(y))
