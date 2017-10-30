@@ -52,11 +52,11 @@
 
 \begin{abstract}
   
-\end{abstract}	\textbf{We develop a classification model that allows to determine whether the decay observed corresponds to a High Boson particle or to another one. We propose a boosted linear regression model and a logistic one. For the former, we estimate the vector of weights using least squares method which aims to minimize the MSE (Here descibe the boosted model!!). For the latter, we use the maximum likelihood method modified by adding a random vector. This modifications avoids convergence to local minima. Additionally, we only update the weights if we have an improvement of the loss function. }
+\end{abstract}	\textbf{We develop a classification model that allows to determine whether the decay observed corresponds to a Higgs Boson particle or to another one. We propose a boosted linear regression model and a logistic one. For the former, we estimate the vector of weights using least squares method which aims to minimize the MSE (Here descibe the boosted model!!). For the latter, we use the maximum likelihood method modified by adding a random vector. This modifications avoids convergence to local minima. Additionally, we only update the weights if we have an improvement of the loss function. }
 
 \section{Introduction}
 
-The aim of this project is to develop a classification model for the decay processes observed. Such that we are able to predict if they correspond either to a High Boson particle or to another one. For this purpose, we propose to use a  boosted linear regression model and a logistic one. For the former, we estimate the vector of weights using least squares method which aims to minimize the MSE (Here descibe the boosted model!!). For the latter, we use the maximum likelihood method. For the maximization of the likelihood we use Gradient Descent that we modify by adding a standard gaussian d-dimensional vector which allows to avoid to be converge to local minima. Additionally, we only update the weights if we have an improvement of the loss function.
+The aim of this project is to develop a classification model for the decay processes observed. Such that we are able to predict if they correspond either to a Higgs Boson particle or to another one. For this purpose, we propose to use a  boosted linear regression model and a logistic one. For the former, we estimate the vector of weights using least squares method which aims to minimize the MSE (Here descibe the boosted model!!). For the latter, we use the maximum likelihood method. For the maximization of the likelihood we use Gradient Descent that we modify by adding a standard gaussian d-dimensional vector which allows to avoid to be converge to local minima. Additionally, we only update the weights if we have an improvement of the loss function.
 Results ..., Conclussions...
 \section{The Model}
 \label{S1}
@@ -87,19 +87,18 @@ with $v^{m+1} \sim d-Gaussian(0,I)$. Where $I$ is a DxD identity matrix and 0 a 
 Moreover, we add the condition that we ill update the weight in each iteration only if the loss function is lower than in the previous step. While it is true that adding this condition increases the computational burden, the benefit is that we improve our prediction results since we reach better convergence.
 \section{The Data}
 \label{S1}
-In this section we'll discuss about the data that we've used to test and compare the models that we've mentioned above. Our training dataset consists of in total 30 features and 1 label which indicates if it's from Higgs boson or from other event. The dataset itself is generated from simulation which mimics the actual particle collision events in which Higgs bosons (with fixed mass 125GeV) were produced and 3 other background processes. 
+In this section we will discuss the data used to test and compare the models that mentioned above. Our training dataset consists of 250.000 instances for 30 features and 1 output variable which indicates if it's from Higgs boson or from other event. The dataset is generated from simulation which mimics the actual particle collision events in which Higgs bosons (with fixed mass 125GeV) were produced and 3 other background processes. 
 
-The features in this dataset consist of both raw data which were measured by actual sensors and derived quantities computed from raw features. We can see description of first 5 features in table {}. And in figure {} we've checked separability of signal from background on sample 2 features. 
+The set of features in this dataset consist of both raw data which were measured by actual sensors and derived quantities computed from raw features. We can see description of first 5 features in table {}. And in figure {} we've checked separability of signal from background on sample 2 features. 
 
-Even thought we have considerably large variation of features ALMOST 70\% of all events lacks at least one feature. We've simply set mean values of features instead of null variables, to minimize effect of missing data. 
+Even though we have considerably large variation of features almost 70\% of all events lack at least one feature. In order to solve this problem, we used an imputation method using the mean values of the respective feature. The goal is to minimize the effects of missing data. 
 
-And finally, we've applied 2 discriminative transformations (square and sine) to each features and created pool of 90 features including original one. From here, we've selected best combination of features to use by forward selection method. In figure{}, we can see the relationship between MSE of trained model and number of features, using this algorithm.
+And finally, we have applied 2 discriminative transformations. First we used polynomial terms up to second order. Secondly, we obtained the sinus and cosine of the feature. As a result, we obtained 90 features including the original ones. From this new set, we have selected the best combination of features with a forward selection method. This method consisted on an iterative process, in each iteration we chosed the best regressors based on the ones that reduced MSE the most. 
 
 
 \section{Results}
 \label{S1}
-  Show evidence to support your claims made in the
-introduction.
+In the following lines, we briefly describe the results obtained. In figure{}, we can see the relationship between MSE of trained model and number of features, using this algorithm...
 \section{Discussion}
 \label{S1}
   Discuss the strengths and weaknesses of your
