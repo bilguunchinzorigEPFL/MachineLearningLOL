@@ -87,18 +87,74 @@ with $v^{m+1} \sim d-Gaussian(0,I)$. Where $I$ is a DxD identity matrix and 0 a 
 Moreover, we add the condition that we ill update the weight in each iteration only if the loss function is lower than in the previous step. While it is true that adding this condition increases the computational burden, the benefit is that we improve our prediction results since we reach better convergence.
 \section{The Data}
 \label{S1}
-In this section we will discuss the data used to test and compare the models that mentioned above. Our training dataset consists of 250.000 instances for 30 features and 1 output variable which indicates if it's from Higgs boson or from other event. The dataset is generated from simulation which mimics the actual particle collision events in which Higgs bosons (with fixed mass 125GeV) were produced and 3 other background processes. 
+In this section, we will discuss the data used to test and compare the models that mentioned above. Our training dataset consists of 250.000 instances for 30 features and 1 output variable. The latter indicates if the decay corresponds to a Higgs boson particle collision event or from other event. The dataset is generated from simulation which mimics the actual particle collision events in which Higgs bosons (with fixed mass 125GeV) were produced and 3 other background processes. 
 
-The set of features in this dataset consist of both raw data which were measured by actual sensors and derived quantities computed from raw features. We can see description of first 5 features in table {}. And in figure {} we've checked separability of signal from background on sample 2 features. 
+The set of features consist of both raw data which were measured by actual sensors and derived quantities computed from raw features. We can see the statistical description of first 5 features in table \ref{Table2}. We can conclude that the standard deviation is extremely high. This is why we also standardized the features. Moreover, in figure \ref{fig1} we study the separability of signal from background on a sample of 2 features. Here, it is clear that there is an overlapping thus the selection of features is important. 
+
+%{\tiny \begin{table}[htb]
+%	\addtolength\tabcolsep{2pt}
+%	\caption{Descriptive Statistics}
+%	\label{Table 1}
+%	\addtolength\tabcolsep{2pt}
+%	\begin{tabular}{llrrrrr}
+%		\hline\noalign{\smallskip}
+%	Variable 	& Min. & Max. & 1st Quartile  \\
+%		\noalign{\smallskip}\hline\noalign{\smallskip}
+%		 mass_MMC   				& -999.00 	& 1192.03	& 78.10 	 \\
+%	mass_transverse_met_lep	& 0.000 	& 690.08 		& 19.24 	  \\                        
+%	mass_vis						& 6.33  		& 1349.35 	& 59.39	 	\\   
+%	pt_h								& 0.00 		& 2834.99 	& 14.069	\\
+%	deltaeta_jet_jet				& -999.00 	& 8.50	& -999.00 	\\
+%		\noalign{\smallskip}\hline\noalign{\smallskip}\\
+%	\end{tabular}
+%\end{table}
+\begin{table}[htb]	\label{Table2}
+	\addtolength\tabcolsep{2pt}
+	\caption{Descriptive Statistics}
+	\addtolength\tabcolsep{2pt}
+	\begin{tabular}{llrrrrr}
+		\hline\noalign{\smallskip}
+		Variable 	& 3d Quartile & Mean & St. Dev. \\
+		\noalign{\smallskip}\hline\noalign{\smallskip}
+mass_MMC   				&  130.61	 & -49.02 &406.35 \\
+mass_transverse_met_lep	 	& 73.59 	& 49.24 &35.34 \\                        
+mass_vis						 	&92.26 & 81.18 & 40.83\\                        
+pt_h							& 79.17		& 57.89 & 63.66\\
+deltaeta_jet_jet			 	&0.49		& -708.42 & 454.48 \\                         
+		\noalign{\smallskip}\hline\noalign{\smallskip}\\
+	\end{tabular}
+\end{table}}
+\begin{tiny}
+		\begin{figure}[b]
+			\includegraphics[scale=0.5]{separ.png}   
+			\caption{Separability of the training set }
+			\label{fig1}    
+		\end{figure}
+\end{tiny}
 
 Even though we have considerably large variation of features almost 70\% of all events lack at least one feature. In order to solve this problem, we used an imputation method using the mean values of the respective feature. The goal is to minimize the effects of missing data. 
 
-And finally, we have applied 2 discriminative transformations. First we used polynomial terms up to second order. Secondly, we obtained the sinus and cosine of the feature. As a result, we obtained 90 features including the original ones. From this new set, we have selected the best combination of features with a forward selection method. This method consisted on an iterative process, in each iteration we chosed the best regressors based on the ones that reduced MSE the most. 
+And finally, we have applied 2 discriminative transformations. First we used polynomial terms up to second order. Secondly, we obtained the sinus and cosine of the feature. As a result, we obtained 90 features including the original ones. From this new set, we have selected the best combination of features with a forward selection method. This method consisted on an iterative process, in each iteration we chosed the best regressors based on the ones that reduced MSE the most. (See figure \ref{fig2})
 
 
 \section{Results}
 \label{S1}
 In the following lines, we briefly describe the results obtained. In figure{}, we can see the relationship between MSE of trained model and number of features, using this algorithm...
+\begin{tiny}
+	\begin{figure}[t]
+		\includegraphics[scale=0.5]{Mse.png}   
+		\caption{Separability of the training set }
+		\label{fig2}    
+	\end{figure}
+\end{tiny}
+
+\begin{tiny}
+	\begin{figure}[b]
+		\includegraphics[scale=0.5]{MethodComp.png}   
+		\caption{Separability of the training set }
+		\label{fig3}    
+	\end{figure}
+\end{tiny}
 \section{Discussion}
 \label{S1}
   Discuss the strengths and weaknesses of your
