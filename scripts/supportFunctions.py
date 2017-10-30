@@ -46,6 +46,21 @@ def build_poly(x, degree):
     for d in range(0,degree):
         powers[:,(d*x.shape[1]):((d+1)*x.shape[1])]=(x**(d+1))/1000
     return powers
+# Function to obtain radial basis 
+#def build_radialbasis(x, type=gaussian): 
+    # Arguments: X= Matrix of features 
+    # Type: type of radial basis. Options available: 1. Gaussian, 2. Thin plate spline 
+ #   if type=Gaussian:
+
+
+  #  else:
+        
+   # powers=np.ones([x.shape[0],x.shape[1]*degree])
+   # for f in range(0,x.shape[1]):
+    #    for d in range(1,degree):
+     #       powers[:,f*degree+d]=x[:,f]**d
+    #return powers
+# Function to obtain polar basis 
 
 def gradient_logistic(y, tx, w):
     x=np.dot(tx,w)
@@ -67,38 +82,53 @@ def build_poly_reg(x,pol, degree):
 def weight_init(size,lower=0,upper=1):
     return np.random.rand(size)*(upper-lower)+lower
 
-#Logistic regression
+# logistic_cdf: Function that gives the probability that y_i=1, i.e. y_i=b. 
+# Output
+#   logistic_cdf: vector of cdf of x_i'w which is equivalent to P(y_i=1)    
+# Inputs 
+#   y= dependent variable 
+#   x= design matrix
+#   w= weights 
+def logistic_cdf(y,x,w):
+    logistic_cdf=np.exp(np.dot(x,w))/(np.ones((len(y)))+np.exp(np.dot(x,w)))
+    return logistic_cdf
 
-#def logistic_pdf(tx,w):
-#	logistic_pdf=np.ones((tx.shape[0]))/(np.ones((tx.shape[0]))+np.exp(-(np.dot(tx,w))))
-#	return logistic_pdf
-
-def logistic_pdf(y,tx,w):
-    logistic_pdf=np.exp(np.dot(tx,w))/(np.ones((len(y)))+np.exp(np.dot(tx,w)))
-    return logistic_pdf
-	
-def logistic_gradient(y,tx,w):
-    log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(y,tx,w)))/(len(y))
+# logistic_gradient: Function that gives the gradient of the logistic regression
+# Output
+#   log_grad: gradient of the logistic regression. 
+# Inputs 
+#   y= dependent variable 
+#   x= design matrix
+#   w= weights 	
+def logistic_gradient(y,x,w):
+    log_grad=np.dot(np.transpose(x),(logistic_cdf(y,x,w)-y))/(len(y))
     return log_grad
-	
-	
-#def logistic_gradient(y,tx,w):
- #   log_grad=np.dot(np.transpose(tx),(y-logistic_pdf(tx,w)))
-  #  return log_grad
 
-#def logistic_log_likelihood(y,tx,w):
-#	logisticpdf=logistic_pdf(tx,w)
-#	log_likelihood=np.dot(np.transpose(y),logisticpdf)+np.dot(np.transpose(np.ones((len(y)))-y),np.ones((len(y)))-logisticpdf)
-#	return log_likelihood
-
-def logistic_log_likelihood(y,tx,w):
-	logisticpdf=logistic_pdf(y,tx,w)
-	log_likelihood=np.dot(np.transpose(y),logisticpdf)+np.dot(np.transpose(np.ones((len(y)))-y),np.ones((len(y)))-logisticpdf)
-	return log_likelihood
-          
-def compute_stoch_logistic_gradient(y, x, w, batch_size):
+# stoch_logistic_gradient: Function that gives the stochastic gradient of the logistic regression
+# Output
+#   stoch_log_gradient: stochastic gradient of the logistic regression. 
+# Arguments
+#   y= dependent variable 
+#   x= design matrix
+#   w= weights 	
+#   batch size= size of the batch. It belongs to the closed interval (0,N)
+def stoch_logistic_gradient(y, x, w, batch_size):
     index=np.int_(np.floor(len(y)*np.random.uniform(0,1,batch_size)))
     y=y[np.transpose(index)]
     x=x[np.transpose(index),:] 
     stoch_log_gradient=logistic_gradient(y, x, w)
     return stoch_log_gradient
+	
+# logistic_log_likelihood: Function that gives the the logistic log likelihood, i.e the negative of the loss of the logistic regression
+# Output
+#   logistic_log_likelihood:  the log-likelihood
+# Arguments
+#   y= dependent variable 
+#   x= design matrix
+#   w= weights 	
+def logistic_log_likelihood(y,x,w):
+	logisticdf=logistic_cdf(y,x,w)
+	log_likelihood=np.dot(np.transpose(y),logisticdf)+np.dot(np.transpose(np.ones((len(y)))-y),np.ones((len(y)))-logisticdf)
+	return log_likelihood
+
+          
