@@ -86,10 +86,25 @@ def create_csv_submission(ids, y_pred, name):
         for r1, r2 in zip(ids, y_pred):
             writer.writerow({'Id':int(r1),'Prediction':int(r2)})
 
-def log_saver(log,columns,name):
+def log_line(y,pred,additional,threshold=0):
+    pred[np.where(pred <= threshold)]=0
+    pred[np.where(pred > threshold)]=1
+    e=np.absolute(y-pred)
+    return [np.mean(e)]+additional
+
+def log_saver(log,columns,name,excep=False):
     with open(name, 'w') as file:
-        fieldnames = columns
-        writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=fieldnames)
-        writer.writeheader()
+        for c in columns:
+            file.write(c)
+            file.write(",")
+        file.write("\n")
+        if excep:
+            for i in log:
+                file.write(str(i))
+                file.write(",")
+            return 0
         for r in log:
-            writer.writerow(r)
+            for i in r:
+                file.write(str(i))
+                file.write(",")
+            file.write("\n")

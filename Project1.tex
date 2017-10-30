@@ -83,6 +83,14 @@ For the logistic regression model, we aim to maximize the likelihood. For this w
 
 \section{The Data}
 \label{S1}
+In this section we'll discuss about the data that we've used to test and compare the models that we've mentioned above. Our training dataset consists of in total 30 features and 1 label which indicates if it's from Higgs boson or from other event. The dataset itself is generated from simulation which mimics the actual particle collision events in which Higgs bosons (with fixed mass 125GeV) were produced and 3 other background processes. 
+
+The features in this dataset consist of both raw data which were measured by actual sensors and derived quantities computed from raw features. We can see description of first 5 features in table {}. And in figure {} we've checked separability of signal from background on sample 2 features. 
+
+Even thought we have considerably large variation of features ALMOST 70\% of all events lacks at least one feature. We've simply set mean values of features instead of null variables, to minimize effect of missing data. 
+
+And finally, we've applied 2 discriminative transformations (square and sine) to each features and created pool of 90 features including original one. From here, we've selected best combination of features to use by forward selection method. In figure{}, we can see the relationship between MSE of trained model and number of features, using this algorithm.
+
 
 \section{Results}
 \label{S1}

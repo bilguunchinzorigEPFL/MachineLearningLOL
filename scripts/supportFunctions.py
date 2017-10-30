@@ -6,11 +6,10 @@ def sigmoid(t):
     return 1/(1+np.exp(-t))     
 def loss_logistic(y, tx, w):
     x=np.dot(tx,w)
-    e=np.around(sigmoid(x))-y
-    return np.mean(np.absolute(e))
+    return np.mean(np.log(1+np.exp(x))-np.multiply(x,y))
 def loss_mse(y,tx,w):
     e=y-np.dot(tx,w) #TODO: figure this out
-    return sum(e**2)/(y.shape[0])
+    return np.mean(e**2)
 def loss_rmse(y,tx,w):
     return np.sqrt(loss_mse(y,tx,w))
 def loss_abs(y,tx,w):
@@ -20,9 +19,8 @@ def loss_abs(y,tx,w):
 
 #mean square error gradient
 def gradient_mse(y,tx,w):
-    rows,cols=np.indices(tx.shape)
-    tmp=y-np.sum(np.multiply(w[cols],tx),axis=1)
-    return np.sum(np.multiply(tmp[rows],tx),axis=0)/(-y.shape[0]), sum(tmp**2)/(y.shape[0])
+    tmp=np.dot(tx,w)-y
+    return np.dot(tx.transpose(),tmp)/(y.shape[0]), np.mean((tmp**2))
 
 #root mean square error gradient
 def gradient_rmse(y,tx,w):
@@ -38,17 +36,15 @@ def gradient_mse_sto(y,tx,w,batch_size):
 #regularization parameter gradient and loss
 def regulizer(w,lambda_):
     reg=np.absolute(w)
-    return lambda_*reg,lambda_*np.sum(reg**2)
+    return lambda_*reg,lambda_*np.sum(np.multiply(reg,reg))
 
 #function specific to polynomial regression
 #creating data for polynomial regression which returns all the degree of x value
 #for example if x.shape=[n,f] then it returns [n,f* ] sized matrix
 def build_poly(x, degree):
-    degree+=1
     powers=np.ones([x.shape[0],x.shape[1]*degree])
-    for f in range(0,x.shape[1]):
-        for d in range(1,degree):
-            powers[:,f*degree+d]=x[:,f]**d
+    for d in range(0,degree):
+        powers[:,(d*x.shape[1]):((d+1)*x.shape[1])]=(x**(d+1))/1000
     return powers
 
 def gradient_logistic(y, tx, w):
