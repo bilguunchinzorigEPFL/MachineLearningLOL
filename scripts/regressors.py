@@ -369,41 +369,40 @@ def grad_booster(y,tx,num=10,alpha=1):
     #       1. logistic
     #       2. probit 
 
-def glr(y,x,max_iters=10000,gamma=0.5,w_initial='zeros',type='logistic'):
+def glr(y,x,max_iters=1,gamma=0.5,w_initial='zeros',type='logistic'):
     loss=[]
     if w_initial=='zeros': 
-       w_initial=np.zeros(x.shape[1])
+        w_initial=np.zeros((x.shape[1]))
     elif w_initial=='ones':    
-        w_initial=np.ones(x.shape[1])
+        w_initial=np.ones((x.shape[1]))
     else: 
         w_initial=np.random.rand(x.shape[1])
     w = w_initial
     if type=='logistic':
         for n_iter in range(max_iters):
-            loss=-logistic_log_likelihood(y,x,w)
+            loss_log=-logistic_log_likelihood(y,x,w)
             grad=logistic_gradient(y,x,w)
             w_1=w-gamma*grad+np.random.normal(0,100,x.shape[1])
-            loss_1=-logistic_log_likelihood(y,x,w_1)
-            if loss_1<loss:
+            loss_log1=-logistic_log_likelihood(y,x,w_1)
+            if loss_log1<loss_log:
                 w=w_1
             else :
                 w=w
-            loss.append([loss])
+            loss.append([loss_log])
             #raise NotImplementedError
             print("Logistic Regression{bi}/{ti}): loss={l}".format(
              bi=n_iter, ti=max_iters - 1,l=loss))
     else: 
         for n_iter in range(max_iters):
-            loss=-probit_log_likelihood(y,x,w)
+            loss_prob=-probit_log_likelihood(y,x,w)
             grad=probit_gradient(y,x,w)
             w_1=w-gamma*grad+np.random.normal(0,100,x.shape[1])
-            loss_1=-probit_log_likelihood(y,x,w_1)
-            if loss_1<loss:
+            loss_prob1=-probit_log_likelihood(y,x,w_1)
+            if loss_prob1<loss_prob:
                 w=w_1
             else :
                 w=w
-            loss.append([loss])
-            #raise NotImplementedError
+            loss.append([loss_prob])
             print("Probit Regression{bi}/{ti}): loss={l}".format(
              bi=n_iter, ti=max_iters - 1,l=loss))
     return  w

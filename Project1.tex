@@ -38,6 +38,7 @@
 \newtheorem{assumption}{Assumption}
 \usepackage{amsmath}
 \usepackage{breqn}
+\newcommand{\R}{\mathbb{R}}
 
 \begin{document}
 \title{Project 1}
@@ -51,11 +52,12 @@
 
 \begin{abstract}
   
-\end{abstract}	\textbf{We aim to predict whether an event is the result of a High Bosson process or not using a linear model and a logistic one. For the former, we estimate the vector of weights using  least squares method which aims to minimize the MSE. In this case, we use the normal equations and not an iterative method. For the latter, we use the maximum likelihood method. In this case we use Gradient Descent for the maximization of the Likelihood.  }
+\end{abstract}	\textbf{We develop a classification model that allows to determine whether the decay observed corresponds to a High Boson particle or to another one. We propose a boosted linear regression model and a logistic one. For the former, we estimate the vector of weights using least squares method which aims to minimize the MSE (Here descibe the boosted model!!). For the latter, we use the maximum likelihood method modified by adding a random vector. This modifications avoids converge to local minima. Additionally, we only update the weights if we have un improvement of the loss function. }
 
 \section{Introduction}
 
-The aim of this project is to determine whether an event signature is the result of High bosson or other process. In order to ...
+The aim of this project is to develop a classification model that allows to determine whether the decay observed corresponds to a High Boson particle or to another one. For this purpose, we propose to use a  boosted linear regression model and a logistic one. For the former, we estimate the vector of weights using least squares method which aims to minimize the MSE (Here descibe the boosted model!!). For the latter, we use the maximum likelihood method. For the maximization of the likelihood we use Gradient Descent that we modify by adding a standard gaussian d-dimensional vector which allows to avoid to be converge to local minima. Additionally, we only update the weights if we have un improvement of the loss function.
+Results ..., Conclussions...
 \section{The Model}
 \label{S1}
 In order to estimate the likelihood that an event signature is the result of a High bosson process, we model the data using a boolean variable called $y_i, \forall i \in  \{1, 2, ..., 2500\}  $ as:
@@ -69,18 +71,20 @@ y_{i}=
 , 
 $$
 Since the expectation of a boleaan variable is equal to the probability that the variable is equal to 1, we can model the probability that the event is the result of a High Bosson process with a linear model:
-$$p(y_i|\textbf{x}_i)=E(y_i|\textbf{x}_i)=\textbf{x}'_i w$$
-Where $\textbf{x}_i $ is the vector of attributes considered in the regression and $w $ are the weights.
+$$p_w(y_i=1|\textbf{x}_i)=E(y_i|\textbf{x}_i)=\textbf{x}'_i w$$
+Where $\textbf{x}_i $ is a vector of D attributes considered in the regression and $w \in \R^D $ are the weights.
 However, as it is well known the biggest pitfall of this model is the fact that the estimated probability is out of the boundaries of the closed interval $ ( 0,1 ) $. 
 In order to address the problem mentioned, we use the logistic regression. This model lies within the framework of a Generalized Linear Model.  In this case, the probability of having a HB process is modeled as following:
-$$p(y_i|\textbf{x}_i)=\frac{\exp(\textbf{x}'_i w)}{1+exp(\textbf{x}'_i w)}$$
-
+$$p_w(y_i=1|\textbf{x}_i)=\frac{\exp(\textbf{x}'_i w)}{1+exp(\textbf{x}'_i w)}$$
+For purposes of simplicity and because it is well known, we don't present the expression of the likelihood of the model.
 \section{Methods}
 In the previous section, we have presented the models that we used. Now, we will describe the methods employed for the estimation of the vector of weights $w$. Since we have two different models, the estimation technique will be different. 
 For the linear regression model, we use Ordinary Least Squares method aiming to minimize the MSE. For this, we used the normal equations and the closed from solution for the weights. 
-For the logistic regression model, we aim to maximize the likelihood. For this we used Gradient Descent. 
+For the logistic regression model, we aim to maximize the likelihood. For this we used Gradient Descent. We modified the gradient descent method by adding a d-dimensional gaussian random vector such that we avoid convergence to local minima. 
+$$w^{m+1}=w^{m}-\lambda +v^{m+1}$$
 
-
+with $v^{m+1} \sim d-Gaussian(0,I)$. Where $I$ is a DxD identity matrix and 0 a vector of zeros in $\R^D$.
+Moreover, we add the condition that we ill update the weight in each iteration only if the loss function is lower than in the previous step. While it is true that adding this condition increases the computational burden, the benefit is that we improve our prediction results since we reach better convergence.
 \section{The Data}
 \label{S1}
 

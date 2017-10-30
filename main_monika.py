@@ -10,7 +10,7 @@ degree=2
 tx=sp.build_poly(tx,degree)
 lambda_=0.7
 w_initial=np.zeros((tx.shape[1]))
-weights, loss=reg.glr(y,tx,max_iters=10000,gamma=0.8,w_initial='zeros',type='probit')
+weights, loss=reg.glr(y,tx,max_iters=1,gamma=0.8,w_initial='zeros',type='probit')
 #w=reg.logistic_regression_bilguun(y, tx)
 y,tx,ids=helper.load_csv_data("../test.csv",standard=True,normal=True)
 tx=sp.build_poly(tx,degree)
