@@ -5,15 +5,15 @@ import pickle
 
 
 def main():
-    with open('vocab.pkl', 'rb') as f:
-        vocab = pickle.load(f)
+    with open('vocab.pkl', 'rb') as ff:
+        vocab = pickle.load(ff)
     vocab_size = len(vocab)
 
     data, row, col = [], [], []
     counter = 1
-    for fn in ['train_pos.txt', 'train_neg.txt']:
-        with open(fn) as f:
-            for line in f:
+    for fn in ['pos_train.txt', 'neg_train.txt']:
+        with open(fn) as ff:
+            for line in ff:
                 tokens = [vocab.get(t, -1) for t in line.strip().split()]
                 tokens = [t for t in tokens if t >= 0]
                 for t in tokens:
@@ -28,7 +28,7 @@ def main():
     cooc = coo_matrix((data, (row, col)))
     print("summing duplicates (this can take a while)")
     cooc.sum_duplicates()
-    with open('cooc.pkl', 'wb') as f:
+    with open('cooc.pkl', 'wb') as ff:
         pickle.dump(cooc, f, pickle.HIGHEST_PROTOCOL)
 
 
