@@ -3,12 +3,15 @@ import Supports as sp
 import FeatureProcessing as fp
 import numpy as np
 
-#Preparing the data
-data=sp.data_loader("twitter-datasets/train_pos.txt",1)+sp.data_loader("twitter-datasets/train_neg.txt",-1)
-train_i,valid_i,test_i=sp.split_data(data)
-(p_data,labels)=[(fp.text2emb(text[0]),text[1]) for text in data]
-
+#If data is calculated
+fp.proccess()
+data,labels=fp.load_processed_data()
+train_i,test_i=sp.split_data(data)
+print("Splitted dataset:{tr},{te}".format(tr=len(train_i),te=len(test_i)))
+print(data.shape)
+print(type(labels))
 #Training
 model=SVC()
-model.fit(p_data[train_i],labels[train_i])
-print(np.mean(np.abs(labels[test_i]-model.predict(p_data[test_i]))))
+model.fit(data[train_i,:],labels[train_i])
+print('Trained')
+print(np.mean(np.abs(labels[test_i]-model.predict(data[test_i]))))
