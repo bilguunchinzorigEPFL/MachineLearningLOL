@@ -25,7 +25,7 @@
 %\usepackage{array}
 %\definecolor{mygreen}{RGB}{28,172,0}
 %\definecolor{mylilas}{RGB}{170,55,241}
-
+\def\one{\mbox{1\hspace{-4.25pt}\fontsize{12}{14.4}\selectfont\textrm{1}}}
 \newcommand{\plim}{\text{plim}}
 \newcommand{\tr}{\text{tr}}
 \newcommand{\diag}{\text{diag}}
@@ -44,7 +44,7 @@
 \title{Project 2}
 
 \author{
-Bilguun Chinzorig, Monika Avila, \\
+Bilguun Chinzorig, Monika Avila, Lkham Nyambuu\\
   \textit{EPFL}
 }
 
@@ -56,12 +56,39 @@ Bilguun Chinzorig, Monika Avila, \\
 
 \section{Introduction}
 
-The aim of this project is to 
-\section{The Model}
-\label{S1}
+The aim of this project is to conduct a twitter sentiment analysis. Our goal is to classify untaged tweets into two groups: positive and negative. 
+For this purpose, we begin our work by preprocessing the tweets. Following, we create the word space, i.e. matrix of embeddings using GloVe methodology. After, we span the tweet space by retrieving features from the embedding matrix. Finally, we used our futures in two types of classifiers: 1. Random Forests and 2. SVM. 
+We conclude that random forests outperforms SVM considering both computing efficiency and classifying results. 
 
+\section{Preprosecing}
+\section{The word space: embedding matrix }
+\label{S1}
+In order to obtain a numerical representation of the words $w_i$ contained in the data set  as $\textbf{w}_{\textbf{i}} \in \mathbb{R}^K$ we used GloVE model. 
+
+This model retrieves the numerical representation of the words that is closest to natural logarithm of the observed co-occurence value $x_{ij}$. Indeed,  \cite{pennington2014glove} propose to obtain the real valued vector by minimizing a weighted sum of squared errors. Where the error is the difference between the log of co-occurence value and the predicted one given by $\textbf{w}'_{\textbf{i}}\textbf{w}_{\textbf{j}}$. Thus, the model minimizes the following cost function: 
+
+$$L(\textbf{w}_{\textbf{n}},\textbf{w}_{\textbf{c}})=\sum_{j=1}^{N}\sum_{i=1}^{D}f(x_{ij})(log(x_{ij})-\textbf{w}'_{\textbf{i}}\textbf{w}_{\textbf{j}})^2$$ 
+
+with: 
+$$f(x_{ij})=min(1,x_{ij}/x_{max})^{3/4}$$ 
+\section{The tweet space: feature retrieval}
+Using the matrix of embeddings we retrieve the tweet space. For this, we generate features that  
+
+\section{The Classification Model}
+After obtaining the tweet space i.e. the features that represent the data set of tweets, we trained the classification model. For this aim, we used two models: 1. Random Forest and 2. SVM. 
+The first model is random forest....
+
+The second classification algorithm used is SVM. In this method, we look to maximize the geometric margin between positive and negative tweets subject to the constraint that the classified vectors must lie outside this margin\footnote{AndrewNg, Support Vector Machines}. This optimization problem is equivalent to the following one for each training sample:
+
+$$min_w || w ||^2$$
+$$s.t. \quad y_i(x'_iw +b)\geq 1$$
+
+ Now, setting the dual problem we can obtain the support vectors which are a few training observations that lie on the margin. 
+ 
 \section{Methods}
 \label{S2}
+
+
 
 \section{The Data}
 \label{S3}
@@ -85,5 +112,6 @@ b.
 \section{Summary}
 \label{S6}
 
-
+\bibliography{Project2}
+\bibliographystyle{spbasic}
 \end{document}
