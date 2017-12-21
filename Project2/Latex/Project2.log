@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.7.4)  18 DEC 2017 18:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.7.4)  20 DEC 2017 15:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -742,7 +742,11 @@ Package color Info: Driver file: pdftex.def on input line 147.
 LaTeX Warning: Unused global option(s):
     [compsocconf].
 
-(./Project2.aux)
+(./Project2.aux
+
+LaTeX Warning: Label `fig1' multiply defined.
+
+)
 \openout1 = `Project2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
@@ -810,38 +814,58 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 66
-.
+<WordDistribution.png, id=41, 384.43625pt x 252.945pt>
+File: WordDistribution.png Graphic file (type png)
+<use WordDistribution.png>
+Package pdftex.def Info: WordDistribution.png  used on input line 93. on input 
+line 93.
+Package pdftex.def Info: Requested size: 192.21765pt x 126.47218pt on input lin
+e 93.
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 10
+1.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 66
-.
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 10
+1.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 66
-.
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 10
+1.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 66
-.
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 10
+1.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 66.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 101.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 66.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 101.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
+s been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.103 T
+       his model retrieves the numerical representation of the words that is...
+ <./WordDistribution.png>]
 Missing character: There is no Â in font zptmcm7t!
 Missing character: There is no   in font zptmcm7t!
-
-(./Project2.bbl)
+ (./Project2.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -853,28 +877,28 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 117.
-[1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 117.
-
-(./Project2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 117.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 117.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 159.
+[2]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 159.
+ (./Project2.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 159.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 159.
 Package rerunfilecheck Info: File `Project2.out' has not changed.
-(rerunfilecheck)             Checksum: AE5AD61FD1DC8F5B106FB85205977826;506.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 117.
+(rerunfilecheck)             Checksum: 10C0864F7A8C9D223F95476480091D04;496.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 159.
  ) 
 Here is how much of TeX's memory you used:
- 16141 strings out of 492990
- 282158 string characters out of 6132637
- 350025 words of memory out of 5000000
- 19539 multiletter control sequences out of 15000+600000
+ 16157 strings out of 492990
+ 282423 string characters out of 6132637
+ 351097 words of memory out of 5000000
+ 19549 multiletter control sequences out of 15000+600000
  582882 words of font info for 123 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,8n,37p,10377b,315s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,8n,37p,10377b,317s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -888,10 +912,10 @@ exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/
 fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/tim
 es/utmri8a.pfb>
-Output written on Project2.pdf (1 page, 76068 bytes).
+Output written on Project2.pdf (2 pages, 93175 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 87 compressed objects within 1 object stream
- 15 named destinations out of 1000 (max. 500000)
- 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 111 PDF objects out of 1000 (max. 8388607)
+ 95 compressed objects within 1 object stream
+ 19 named destinations out of 1000 (max. 500000)
+ 78 words of extra memory for PDF output out of 10000 (max. 10000000)
 

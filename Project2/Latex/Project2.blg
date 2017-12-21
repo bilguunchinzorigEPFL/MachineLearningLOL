@@ -2,45 +2,50 @@ This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: Project2.aux
 The style file: humannat.bst
+Illegal, another \bibstyle command---line 32 of file Project2.aux
+ : \bibstyle
+ :          {spbasic}
+I'm skipping whatever remains of this command
 Database file #1: Project2.bib
-You've used 1 entry,
+You've used 2 entries,
             2155 wiz_defined-function locations,
-            508 strings with 4135 characters,
-and the built_in function-call counts, 604 in all, are:
-= -- 62
-> -- 17
-< -- 1
-+ -- 6
-- -- 6
-* -- 43
-:= -- 91
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 8
-chr.to.int$ -- 1
-cite$ -- 1
-duplicate$ -- 29
-empty$ -- 46
-format.name$ -- 7
-if$ -- 131
+            516 strings with 4213 characters,
+and the built_in function-call counts, 942 in all, are:
+= -- 97
+> -- 23
+< -- 2
++ -- 8
+- -- 8
+* -- 73
+:= -- 150
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 14
+chr.to.int$ -- 2
+cite$ -- 2
+duplicate$ -- 43
+empty$ -- 73
+format.name$ -- 10
+if$ -- 196
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 1
-newline$ -- 8
-num.names$ -- 3
-pop$ -- 12
+missing$ -- 2
+newline$ -- 13
+num.names$ -- 6
+pop$ -- 15
 preamble$ -- 1
-purify$ -- 8
+purify$ -- 14
 quote$ -- 0
-skip$ -- 25
+skip$ -- 36
 stack$ -- 0
-substring$ -- 52
-swap$ -- 13
+substring$ -- 80
+swap$ -- 15
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 6
+type$ -- 12
 warning$ -- 0
-while$ -- 5
+while$ -- 9
 width$ -- 0
-write$ -- 15
+write$ -- 28
+(There was 1 error message)
