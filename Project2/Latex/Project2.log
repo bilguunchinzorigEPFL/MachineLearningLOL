@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.5.14)  21 DEC 2017 14:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.5.14)  21 DEC 2017 16:01
 entering extended mode
 **./Project2.tex
 (Project2.tex
@@ -744,6 +744,15 @@ LaTeX Warning: Unused global option(s):
 
 LaTeX Warning: Label `fig1' multiply defined.
 
+
+LaTeX Warning: Label `fig2' multiply defined.
+
+
+LaTeX Warning: Label `fig4' multiply defined.
+
+
+LaTeX Warning: Label `fig5' multiply defined.
+
 )
 \openout1 = `Project2.aux'.
 
@@ -808,7 +817,7 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-<WordDistribution.png, id=40, 384.43625pt x 252.945pt>
+<WordDistribution.png, id=36, 384.43625pt x 252.945pt>
 File: WordDistribution.png Graphic file (type png)
 
 <use WordDistribution.png>
@@ -856,23 +865,61 @@ s been already used, duplicate ignored
 l.103 T
        his model retrieves the numerical representation of the words that is...
  <./WordDistribution.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 119--121
+Underfull \hbox (badness 10000) in paragraph at lines 123--125
 []\OT1/ptm/m/n/10 !!MONIKA!! equa-tion in here weight=a*hash-
  []
 
 Missing character: There is no Â in font zptmcm7t!
 Missing character: There is no   in font zptmcm7t!
+<Lkhamaa1.png, id=55, 408.02437pt x 256.70906pt>
+File: Lkhamaa1.png Graphic file (type png)
+ <use Lkhamaa1.png>
+Package pdftex.def Info: Lkhamaa1.png used on input line 154.
+(pdftex.def)             Requested size: 244.81651pt x 154.02661pt.
+ [2]
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no € in font ptmr7t!
+Missing character: There is no ™ in font ptmr7t!
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no € in font ptmr7t!
+Missing character: There is no ™ in font ptmr7t!
 
-Underfull \hbox (badness 2057) in paragraph at lines 153--155
+<Lkhamaa2.png, id=73, 682.04813pt x 375.65344pt>
+File: Lkhamaa2.png Graphic file (type png)
+ <use Lkhamaa2.png>
+Package pdftex.def Info: Lkhamaa2.png used on input line 168.
+(pdftex.def)             Requested size: 238.72041pt x 131.48067pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 2057) in paragraph at lines 197--199
 []\OT1/ptm/m/n/10 In or-der to an-a-lyze and eval-u-ate our pro-posed pre-
  []
 
-(Project2.bbl
+<results.png, id=74, 294.34969pt x 195.73125pt>
+File: results.png Graphic file (type png)
+ <use results.png>
+Package pdftex.def Info: results.png used on input line 210.
+(pdftex.def)             Requested size: 235.48006pt x 156.58519pt.
+ [3pdfTeX warning (ext4): destination with the same identifier (name{figure.2})
+ has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.217 \end{itemize}
+                   pdfTeX warning (ext4): destination with the same identifier 
+(name{figure.3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.217 \end{itemize}
+                    <./Lkhamaa1.png> <./Lkhamaa2.png>] (Project2.bbl
 Missing character: There is no Â in font ptmr7t!
 Missing character: There is no ´ in font ptmr7t!
 Missing character: There is no Ë in font ptmr7t!
 Missing character: There is no † in font ptmr7t!
- [2])
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -884,30 +931,36 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 174.
-[3
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 225.
+[4pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) 
+has been already used, duplicate ignored
 
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 174.
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.225 \end{document}
+                    
+
+ <./results.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 225.
  (Project2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 174.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 174.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 225.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 225.
 Package rerunfilecheck Info: File `Project2.out' has not changed.
-(rerunfilecheck)             Checksum: C25196E32CBF7E92EC84436F45048D41;505.
+(rerunfilecheck)             Checksum: 05322786265C82BA461F6D93448E6080;459.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 174.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 225.
  ) 
 Here is how much of TeX's memory you used:
- 16317 strings out of 493328
- 285077 string characters out of 3139118
- 359286 words of memory out of 3000000
- 19682 multiletter control sequences out of 15000+200000
+ 16336 strings out of 493328
+ 285333 string characters out of 3139118
+ 359376 words of memory out of 3000000
+ 19695 multiletter control sequences out of 15000+200000
  582882 words of font info for 123 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,8n,37p,10379b,416s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,8n,37p,10379b,407s stack positions out of 5000i,500n,10000p,200000b,50000s
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exi
 st, replaced by a fixed one
 
@@ -920,9 +973,9 @@ onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 tmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTe
 X 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Project2.pdf (3 pages, 107848 bytes).
+Output written on Project2.pdf (4 pages, 139413 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
- 23 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 127 PDF objects out of 1000 (max. 8388607)
+ 26 named destinations out of 1000 (max. 500000)
+ 85 words of extra memory for PDF output out of 10000 (max. 10000000)
 
