@@ -107,16 +107,19 @@ $$L(\textbf{w}_{\textbf{n}},\textbf{w}_{\textbf{c}})=\sum_{j=1}^{N}\sum_{i=1}^{D
 with: 
 $$f(x_{ij})=min(1,x_{ij}/x_{max})^{3/4}$$ 
 \section{The tweet space: feature retrieval}
-In order to obtain a numerical representation of the tweet space we retrieved two types of features. The first class is obtained using GloVe matrix of embeddings. On contrast, we developed the second type of features with the aim to capture the syntax.
-
-Using the GloVe matrix of embeddings, we used the mean of the word embedings. 
-
-On the other hand, the features that we developed are: 
-
+In order to obtain a numerical representation of the tweet space we need to combine individual word features appropriately. The most straightforward and widely used method for combining is taking mean value of each word's features. But two challenges of creating tweet space are loss of information related to word sequence and their emphasis. Specially most tweets has various ways of emphasizing giving word, including hash-tagging, repeating characters, emoticons etc. Hence, we also extracted following 4 features indicating how important each word is.
 \begin{enumerate}
-	\item The mean of the tf-idf. 
-	\item The weighted sum of the tf-idf, which means that we weighted hashtaged  tf-idf, positive tags  tf-idf, negative tags  tf-idf and emphasis  tf-idf.  		
-	\end{enumerate}
+\item Hash-tagged?: boolean vector indicating each word of tweet is hash-tagged or not
+\item Parts of speech score: The parts of speech is important linguistic characteristic to evaluate how objective or subjective the word is. According to the (\cite{corpus}), superlatives and adjectives are tend to be more subjective and thus it has more impact on evaluating writer's opinion. By using their results, we have obtained each tag's score.
+\item Negations: The negations words, including not, neither, none has important characteristics, which can change meaning of the text complete opposite. Thus, we created boolean matrix indicating each word is negation or not
+\item Emphasize: Many twitters use repeated characters to express their emotion. So we counted number of repeated characters in each word to represent this feature.
+\end{enumerate}
+Once we found the features, we combined total weight of each word feature by using following equation:
+
+!!MONIKA!! equation in here 
+weight=a*hash-tagged+b*pos_tag+c*negation+d*emphasize 
+
+To find the a,b,c,d parameters we used grid-search algorithm which maximizes separability of negative and positive tweets' features, created from tf-idf of words.
 
 \section{The Classification Model}
 After obtaining the tweet space i.e. the features that represent the data set of tweets, we trained the classification model. For this aim, we used two models: 1. Random Forest and 2. SVM. 
@@ -147,16 +150,17 @@ The training data set is formed by 2 millions of tweets, half of them correspond
 
 \section{Results}
 \label{S4}
-In order to analyze and evaluate our proposed pre-processing and feature processing methods, we have created 4 main pipelines
-1. Baseline: 
+In order to analyze and evaluate our proposed pre-processing and feature processing methods, we have created 4 main pipelines.
+\begin{itemize}
+	\item 1. Baseline: 
 	To measure impact of feature pre-processing we trained glove embeddings on raw tokens of the tweets and used RF and SVM algorithms.
-2. Pre-processed:
+	\item 2. Pre-processed:
 	In this pipeline, we have used all the pre-processing methods plus word stemming to clean the data and extract words from tokens as much as possible. For word feature to tweet feature conversion, we have used the best results obtained from weighted sum method described at section 4. And finally, we trained SVM and RF algorithms to test the result.
-3. Pre-trained:
+	\item 3. Pre-trained:
 	As mentioned in section 2, the vocabulary that we have extracted contains huge amount of misspelled or unrecognizable words and tokens. Thus we have used pre-trained glove word embeddings and combined them using tweet feature conversion method. And again, tested RF and SVM models.
-4. Bag of words:
+	\item 4. Bag of words:
 	After cleaning data as mentioned in section 2, we extracted tf-idf bag of words representation to describe each tweets. And used RF algorithm.
-The figure !! shows the results of each pipeline. 
+\end{itemize}
 
 
 \section{Discussion}
