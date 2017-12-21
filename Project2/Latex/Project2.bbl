@@ -1,5 +1,11 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\astroncite{Alexander~Pak}{}]{corpus}
+Alexander~Pak, P.~P.\leavevmode\nopagebreak\newline.
+\newblock Twitter as a corpus for sentiment analysis and opinion mining,
+  universit´e de paris-sud, laboratoire limsi-cnrs, bˆatiment 508, f-91405
+  orsay cedex, france.
+
 \bibitem[\protect\astroncite{Breiman}{2001}]{breiman2001random}
 Breiman, L.\leavevmode\nopagebreak\newline 2001.
 \newblock Random forests.
