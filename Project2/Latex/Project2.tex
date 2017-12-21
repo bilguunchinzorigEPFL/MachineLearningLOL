@@ -52,15 +52,20 @@ Bilguun Chinzorig, Monika Avila, Lkham Nyambuu\\
 
 \begin{abstract}
   The aim of this project is to conduct a twitter sentiment analysis. Our goal is to classify untaged tweets into two groups: positive and negative. 
-  For this purpose, we begin our work by preprocessing the tweets and generate the dictiorany. Following, we create the word space, i.e. matrix of embeddings using GloVe methodology. After, we span the tweet space by retrieving features from the embedding matrix. In addition to these features, we constructed additional variables that capture the meaning  and the importance of the words as well as hashtags included in each tweet. Finally, we used our futures in two types of classifiers: 1. Random Forests and 2. SVM. 
-  We conclude that random forests outperforms SVM considering both computing efficiency and classifying results. 
+  We  did a preprocessing of the tweets, generated the dictionary. We obtain the matrix of embeddings using GloVe methodology. We retrievied as feature the mean of the embeddings. Moreover, we constructed additional variables that capture the meaning  and the importance of the words as well as their importance in their part of the speech. Finally, we used our futures in two types of classifiers: 1. Random Forests (SRF) and 2. SVM. 
+  We obtain that RF outperforms SVM considering both computing efficiency and classifying results. 
 \end{abstract}	\textbf{ }
 
 \section{Introduction}
 
 
+In this project we perform a twitter sentiment analysis in order to classify tweets between positive and negative ones. 
+For this purpose, we begin our work by preprocessing the tweets. We processed all the words in order to eliminate numbers, UrL links, duplicates and we used stems of the words. Following, we create the word space, i.e. matrix of embeddings using GloVe methodology. After, we span the tweet space by retrieving features from the embedding matrix. In addition to these features, we constructed additional variables that capture the meaning  and the importance of the words as well as hashtags included in each tweet. Finally, we used our futures in two types of classifiers: 1. Random Forests and 2. SVM. 
+We conclude that random forests outperforms SVM considering both computing efficiency and classifying results. 
+Random Forest achieved higher result than SVM in very low training time. And also for parameter optimization increased size of estimators in RF doesn't result over-fitting, due to it's random behavior. 
+In section II we present the vocabulary construction along with the explanation of the word preprocesing. In section III we present the construction of the matrix of embeddings. Section IV explains the development of features and section V presents the models used for classification. Later, section VI describes the data used. Section VII describes the results obtaines and finally VIII draws the final conclusions. 
 
-\section{The vocabulary construction: Word preprosecing}
+\section{The vocabulary construction: Word preprocesing}\label{s1}
 
 We begin our work by preprocessing the available tweets such that we can define our vocabulary. However the words in the dataset are not easily separable by whitespaces due to following reasons:
 	
@@ -96,7 +101,7 @@ Finally, in order to increase efficiency of the information contained in our fin
 		\end{figure}
 \end{tiny}
 
-\section{The word space: embedding matrix }
+\section{The word space: embedding matrix }\label{s2}
 \label{S1}
 In order to obtain a numerical representation of the words $w_i$ contained in the data set  as $\textbf{w}_{\textbf{i}} \in \mathbb{R}^K$ we used GloVE model. 
 
@@ -106,27 +111,27 @@ $$L(\textbf{w}_{\textbf{n}},\textbf{w}_{\textbf{c}})=\sum_{j=1}^{N}\sum_{i=1}^{D
 
 with: 
 $$f(x_{ij})=min(1,x_{ij}/x_{max})^{3/4}$$ 
-\section{The tweet space: feature retrieval}
+\section{The tweet space: feature retrieval}\label{s3}
 In order to obtain a numerical representation of the tweet space we can either use bag of words feature or combine individual word features appropriately.
 
 The bag of words is a way to represent a text or sentence into vector where each feature represents one word in the vocabulary. And thus, by calculating term frequency and inverse document frequencies of each words in tweet, we can represent any given document. This method is easy to implement but needs huge amount of data in order to be effective, since number of features can be 50000 to 1 million. 
 
-On the other hand, the most straightforward and widely used method for combining word features is taking only mean value. But two challenges of creating tweet space are loss of information related to word sequence and their emphasis. Specially most tweets has various ways of emphasizing giving word, including hash-tagging, repeating characters, emoticons etc. Hence, we also extracted following 4 features indicating how important each word is.
+On the other hand, the most straightforward and widely used method for combining word features is taking only mean value. But two challenges of creating tweet space are loss of information related to word sequence and their emphasis. Specially most tweets has various ways of emphasizing giving word, including hash-tagging, repeating characters, emoticons etc. Hence, we also extracted the following 4 features indicating how important each word is.
 \begin{enumerate}
-\item Hash-tagged?: boolean vector indicating each word of tweet is hash-tagged or not
-\item Parts of speech score: The parts of speech is important linguistic characteristic to evaluate how objective or subjective the word is. According to the (\cite{corpus}), superlatives and adjectives are tend to be more subjective and thus it has more impact on evaluating writer's opinion. By using their results, we have obtained each tag's score.
-\item Negations: The negations words, including not, neither, none has important characteristics, which can change meaning of the text complete opposite. Thus, we created boolean matrix indicating each word is negation or not
+\item Hash-tagged: boolean variable that takes value 1 if the word of tweet is hash-tagged and 0 if not. 
+\item Parts of speech score: The part of speech is an important linguistic characteristic to evaluate how objective or subjective is the word. According to the (\cite{corpus}), superlatives and adjectives tend to be more subjective and thus it has more impact on evaluating writer's opinion. By using their results, we have obtained a score for each tag.
+\item Negations: The negation words, including not, neither, none have important characteristics, which can completely change the meaning of the text. Thus, we created a boolean variable indicating if each word is a negation one or not. 
 \item Emphasize: Many twitters use repeated characters to express their emotion. So we counted number of repeated characters in each word to represent this feature.
 \end{enumerate}
 Once we found the features, we combined total weight of each word feature by using following equation:
 
-!!MONIKA!! equation in here 
-weight=a*hash-tagged+b*pos_tag+c*negation+d*emphasize 
 
-To find the a,b,c,d parameters we used grid-search algorithm which maximizes separability of negative and positive tweets' features, created from tf-idf of words.
+$$weight=\beta_1hash-tagged+\beta_2pos_tag+\beta_3negation+\beta_4emphasize$$
 
-\section{The Classification Model}
-After obtaining the tweet space i.e. the features that represent the data set of tweets, we trained the classification model. For this aim, we used two models: 1. Random Forest and 2. SVM. 
+In order to find the $\beta_j$ parameters with$ j\in {1,2,3,4}$ we used grid-search algorithm which maximizes separability of negative and positive tweets' features, created from tf-idf of words.
+
+\section{The Classification Model}\label{s4}
+After obtaining the tweet space i.e. the features that represent the data set of tweets were trained in the classification model. For this aim, we used two models: 1. Random Forest and 2. SVM. 
 
 The first model is random forests, this is a method based in an ensemble approach composed of a set of decision trees. At each node, the variables used to divide the space of the independent variables are randomly selected and used to create the decision tree (\cite{breiman2001random}). 
 
@@ -141,13 +146,12 @@ $$s.t. \quad y_i(x'_iw +b)\geq 1$$
 %\label{S2}
 
 
-
-\section{The Data}
+\section{The Data}\label{s5}
 \label{S3}
 
 Our dataset is a collection of Twitter conversations (tweets), that is divided into two different sentiments such as positive and negative messages. Each sentiments has 100000 tweets. Before the dataset analysis step, the redundant tweets needed to be deleted. We used the Notepad++ tool plugins for that purpose which gave us unique tweets. As the result, there are 91088 tweets in the negative and 90233 tweets in the positive datasets.
  
-The analysis starts with comparing the usage of tags and shared links in terms of people's behavior of using them in positive and negative tweets respectively. After that, we computed the average use of tag and link in two datasets. We created the following plot from the result.
+The analysis starts with comparing the usage of tags and shared links in terms of of the use of individuals either for positive or negative tweets respectively. In the graph \ref{fig2}, we can see that people use tags more than url. Furthermore, people tend to use tags more in positive massages than negative. This gives an observation that people like to share their happy moments with others by mentioning them or giving them credits. On the other hand, the usage of URL link is considerably lower than the usage of tags in the positive dataset.
 
 \begin{tiny}
 	\begin{figure}[b] \label{fig2}
@@ -157,11 +161,9 @@ The analysis starts with comparing the usage of tags and shared links in terms o
 	\end{figure}
 \end{tiny}
 
-First of all, we can see from the plot that people use tags more than url. Furthermore, as shown in the plot, people tend to use tags more in positive massages than negative. This gives an observation that people like to share their happy moments with others by mentioning them or giving them credits. On the other hand, the usage of URL link is considerably lower than the usage of tags in the positive dataset.
+After the above analysis, the links and tags needed to be deleted from the dataset because first we obtained the necessary results, and second they may be miscomputed as adjective or noun tokens. Again, we used the Notepad++ tool plugins for this purpose because it is more efficient than jupyter notebookfor computing around 90,000 tweets per dataset. Also, we had only two separate datasets so we considered the Notepad++ tool as suitable for deleting the tags and links. 
 
-After the above analysis, the links and tags needed to be deleted from the dataset because first we obtained the necessary results, and second they may be miscomputed as adjective or noun tokens. Again, we used the Notepad++ tool plugins for this purpose because jupyter notebook was very slow for computing around 90000 tweets per dataset. Also, we had only two separate datasets so we considered the Notepad++ tool as suitable for deleting the tags and links. 
-
-Secondly, we wanted to find out part-of-speech type of words that plays an important role in two different datasets. We counted every word’s occurrences in the datasets. In order to do that, punctuations needed to be deleted by replacing with empty space. Also, all uppercase letters are converted into lowercase to make them identical so that they would be counted as the same word. After counting word occurrences, negative dataset's words are subtracted from positive dataset's words, which shows the difference between two dataset’s words. The following the plot illustrates the result.
+Secondly, we wanted to find out part-of-speech type of words that plays an important role in two different datasets. We counted the occurrence of every word in the datasets. In order to do that, punctuations needed to be replaced by an empty space. Also, all uppercase letters are converted into lowercase to make them identical so that they would be counted as the same word. After counting word occurrences, the words in the negative dataset are subtracted from the words used in the positive dataset. This shows the difference between the words in both datasets. 
 
 \begin{tiny}
 	\begin{figure}[b] \label{fig4}
@@ -171,7 +173,7 @@ Secondly, we wanted to find out part-of-speech type of words that plays an impor
 	\end{figure}
 \end{tiny}
 
-The above plot shows the top 30 words of each dataset. From these 60 words, we can simply observe obvious negative and positive words respectively for each datasets. However, there are other type of words as well such as prepositions and pronouns. From these words, 'You' and 'I' are very different in two datasets. 'I' is highly used in negative dataset, on the contrary, 'you' is used much more in the positive dataset. On one hand, we can conclude that people tend to blame themselves or regret for something they've done on the internet. On the other hand, the pronoun 'you' is used far more in the positive tweets, which gives a conclusion that people tend to praise or congratulate others using the Twitter. Also, the positive dataset has many retweets, which shows that people like to share positive information on the Twitter.
+The plot \ref{fig4} shows the top 30 words of each dataset. From these 60 words, we can simply observe obvious negative and positive words respectively for each datasets. However, there are other type of words as well like prepositions and pronouns. From these words, 'You' and 'I' are very different in two datasets. 'I' is highly used in negative dataset, on the contrary, 'you' is used much more in the positive dataset. On one hand, we can conclude that people tend to blame themselves or regret for something they have done on the internet. On the other hand, the pronoun 'you' is used far more in the positive tweets, which gives a conclusion that people tend to praise or congratulate others using the Twitter. Also, the positive dataset has many retweets, which shows that people like to share positive information on the Twitter.
 
 Adjectives play an important role in distinguishing positive and negative tweets since they are used much more, comparing to nouns and verbs, in the tweets.
 
@@ -192,7 +194,7 @@ After that we computed word count of each tweet starting from first to last twee
 
 
 
-\section{Results}
+\section{Results}\label{S6}
 \label{S4}
 In order to analyze and evaluate our proposed pre-processing and feature processing methods, we have created 4 main pipelines.
 \begin{itemize}
@@ -213,13 +215,14 @@ In order to analyze and evaluate our proposed pre-processing and feature process
 	\end{figure}
 \end{tiny}
 
-From the graph, our prediction model has increased by almost 20 percent. And also, note that even though we have lost the tweet information by generalizing the mean in pipeline 3, the result is almost same as that of RF with bag of representation. However, in both cases we have lost word order information. This implies, there is further possibility of increasing the performance by using different model which uses sequential information, including Hidden Markov Model, Convolutional Neural Network, Ngram models etc. And moreover, according to the section 2's result many words in the vocabulary are not recognizable. Thus, there is further possibility of improvement using string matching or spell checking algorithms. But we couldn't used it, due to computational limit. In general, Random Forest achieved higher result than SVM in very low training time. And also for parameter optimization increased size of estimators in RF doesn't result over-fitting, due to it's random behavior. 
+From the graph, our prediction model has increased by almost 20 percent, from 50\% to 70\%.  Also, note that even though we have lost the tweet information by generalizing the mean in pipeline 3, the result is almost same as that of RF with bag of representation. 
 \end{itemize}
 
-\section{Summary}
+\section{Summary}\label{s6}
 \label{S6}
 
-
+Random Forest achieved higher result than SVM in very low training time. And also for parameter optimization increased size of estimators in RF doesn't result over-fitting, due to it's random behavior.
+However, with both methods used we have lost word order information. This implies, there is further possibility of increasing the performance by using different model which uses sequential information, including Hidden Markov Model, Convolutional Neural Network, Ngram models etc. And moreover, according to the section 2's result many words in the vocabulary are not recognizable. Thus, there is further possibility of improvement using string matching or spell checking algorithms. But we couldn't apply them, due to computational limit. 
 \bibliography{Project2}
 \bibliographystyle{spbasic}
 \end{document}
