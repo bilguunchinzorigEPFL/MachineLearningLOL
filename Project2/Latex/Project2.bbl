@@ -1,5 +1,10 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\astroncite{Breiman}{2001}]{breiman2001random}
+Breiman, L.\leavevmode\nopagebreak\newline 2001.
+\newblock Random forests.
+\newblock {\em Machine learning}, 45(1):5--32.
+
 \bibitem[\protect\astroncite{Pennington et~al.}{2014}]{pennington2014glove}
 Pennington, J., R.~Socher, and C.~Manning\leavevmode\nopagebreak\newline 2014.
 \newblock Glove: Global vectors for word representation.
