@@ -147,6 +147,17 @@ The training data set is formed by 2 millions of tweets, half of them correspond
 
 \section{Results}
 \label{S4}
+In order to analyze and evaluate our proposed pre-processing and feature processing methods, we have created 4 main pipelines
+1. Baseline: 
+	To measure impact of feature pre-processing we trained glove embeddings on raw tokens of the tweets and used RF and SVM algorithms.
+2. Pre-processed:
+	In this pipeline, we have used all the pre-processing methods plus word stemming to clean the data and extract words from tokens as much as possible. For word feature to tweet feature conversion, we have used the best results obtained from weighted sum method described at section 4. And finally, we trained SVM and RF algorithms to test the result.
+3. Pre-trained:
+	As mentioned in section 2, the vocabulary that we have extracted contains huge amount of misspelled or unrecognizable words and tokens. Thus we have used pre-trained glove word embeddings and combined them using tweet feature conversion method. And again, tested RF and SVM models.
+4. Bag of words:
+	After cleaning data as mentioned in section 2, we extracted tf-idf bag of words representation to describe each tweets. And used RF algorithm.
+The figure !! shows the results of each pipeline. 
+
 
 \section{Discussion}
 \label{S5}
